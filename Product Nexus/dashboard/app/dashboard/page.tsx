@@ -138,60 +138,63 @@ export default function DashboardPage() {
   const overview = metrics?.overview || {}
 
   return (
-    <div className="p-8 min-h-screen bg-transparent">
-      <div className="mb-8 flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-400 mt-2">Visão geral do seu funil de vendas</p>
-        </div>
-        
-        {/* Seletor de Período */}
-        <div className="relative">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-gray-400" />
-            <select
-              value={period}
-              onChange={(e) => handlePeriodChange(e.target.value as '7d' | '30d' | '90d' | 'custom')}
-              className="px-4 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm appearance-none cursor-pointer pr-8"
-            >
-              <option value="7d">Últimos 7 dias</option>
-              <option value="30d">Últimos 30 dias</option>
-              <option value="90d">Últimos 90 dias</option>
-              <option value="custom">Período personalizado</option>
-            </select>
-            <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 pointer-events-none" />
+    <div className="p-8 min-h-screen bg-transparent relative">
+      <div className="mb-8">
+        <div className="flex flex-col gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+            <p className="text-gray-400 mt-2">Visão geral do seu funil de vendas</p>
           </div>
           
-          {/* Seletor de Data Customizado */}
-          {period === 'custom' && (
-            <Card className="absolute right-0 mt-2 bg-[#1A1A1A] border border-0 shadow-xl z-10 w-64">
-              <CardContent className="p-4">
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <label className="text-xs text-gray-400 mb-1 block">Data Inicial</label>
-                    <input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      max={endDate || undefined}
-                      className="w-full px-3 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
-                    />
+          {/* Seletor de Período */}
+          <div className="relative inline-block">
+            <div className="relative flex items-center gap-2 bg-[#1A1A1A] px-3 py-2 rounded-lg border border-white/10 w-fit">
+              <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <select
+                value={period}
+                onChange={(e) => handlePeriodChange(e.target.value as '7d' | '30d' | '90d' | 'custom')}
+                className="bg-transparent border-0 focus:outline-none focus:ring-0 text-white text-sm appearance-none cursor-pointer pr-6 w-auto"
+                style={{ width: 'fit-content', minWidth: '140px', maxWidth: '180px' }}
+              >
+                <option value="7d">Últimos 7 dias</option>
+                <option value="30d">Últimos 30 dias</option>
+                <option value="90d">Últimos 90 dias</option>
+                <option value="custom">Período personalizado</option>
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-4 pointer-events-none" />
+            </div>
+          
+            {/* Seletor de Data Customizado */}
+            {period === 'custom' && (
+              <Card className="absolute left-0 mt-2 bg-[#1A1A1A] border border-0 shadow-xl z-10 w-64">
+                <CardContent className="p-4">
+                  <div className="flex flex-col gap-3">
+                    <div>
+                      <label className="text-xs text-gray-400 mb-1 block">Data Inicial</label>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        max={endDate || undefined}
+                        className="w-full px-3 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-400 mb-1 block">Data Final</label>
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        min={startDate || undefined}
+                        max={new Date().toISOString().split('T')[0]}
+                        className="w-full px-3 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="text-xs text-gray-400 mb-1 block">Data Final</label>
-                    <input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      min={startDate || undefined}
-                      max={new Date().toISOString().split('T')[0]}
-                      className="w-full px-3 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </div>
 

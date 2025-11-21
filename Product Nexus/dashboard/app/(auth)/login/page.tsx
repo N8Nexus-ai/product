@@ -39,21 +39,19 @@ export default function LoginPage() {
       <Card className="w-full max-w-md bg-[#1A1A1A]/90 backdrop-blur-sm border-white/10 relative z-10 shadow-2xl">
         <CardHeader className="space-y-1">
           <div className="flex flex-col items-center space-y-4">
-            {/* Logo - Adicione sua logo em public/logo.png */}
-            <div className="relative w-48 h-16">
+            {/* Logo */}
+            <div className="w-10 h-10 flex items-center justify-center">
               <Image 
-                src="/logo.png" 
-                alt="Nexus Sales OS" 
-                fill
-                className="object-contain"
-                onError={(e) => {
-                  // Se a logo não existir, mostra o texto
-                  e.currentTarget.style.display = 'none'
-                }}
+                src="/Logo sem fundo.png" 
+                alt="Nexus.ai Logo" 
+                width={40}
+                height={40}
+                className="w-full h-full object-contain"
+                priority
               />
             </div>
-            <CardTitle className="text-3xl font-bold text-center" style={{ display: 'none' }}>
-              Nexus Sales OS
+            <CardTitle className="text-3xl font-bold text-center text-white">
+              Nexus.ai
             </CardTitle>
             <CardDescription className="text-center">
               Sistema Operacional de Vendas

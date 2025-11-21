@@ -32,23 +32,24 @@ export function Sidebar() {
   }
 
   return (
-    <div className="flex flex-col w-64 bg-[#0D0D0D] text-white border-r border-white/5">
-      <div className="flex items-center justify-center h-16 border-b border-white/5 px-4">
+    <div className="flex flex-col w-64 h-full bg-[#0D0D0D]/95 backdrop-blur-sm text-white border-r border-white/5 relative z-10">
+      <div className="flex items-center justify-center h-16 px-4">
         {/* Logo Nexus */}
-        <div className="flex items-center justify-center w-full">
-          <Image 
-            src="/logo-dark.png" 
-            alt="Nexus Sales OS" 
-            width={120} 
-            height={38}
-            className="object-contain h-auto"
-            priority
-            style={{ maxHeight: '38px' }}
-          />
-        </div>
+        <Link href="/dashboard" className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200">
+          <div className="w-10 h-10 flex items-center justify-center flex-shrink-0">
+            <Image 
+              src="/Logo sem fundo.png" 
+              alt="Nexus.ai Logo" 
+              width={40}
+              height={40}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </div>
+        </Link>
       </div>
 
-      <nav className="flex-1 px-4 py-6 space-y-1">
+      <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {navigation.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -69,7 +70,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/5">
+      <div className="p-4 mt-auto">
         <button
           onClick={handleLogout}
           className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition-all duration-200"
