@@ -5,6 +5,7 @@ import { leads } from '@/lib/api'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/page-header'
 import {
   getLeadStatusColor,
   getLeadStatusLabel,
@@ -28,20 +29,28 @@ export default function LeadsPage() {
   const [totalPages, setTotalPages] = useState(1)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string | undefined>()
 
   useEffect(() => {
     loadLeads()
-  }, [page, statusFilter])
+  }, [page, statusFilter, selectedCompanyId])
 
   const loadLeads = async () => {
     try {
       setLoading(true)
-      const response = await leads.list({
+      const params: any = {
         page,
         limit: 20,
         ...(statusFilter && { status: statusFilter }),
         ...(search && { search })
-      })
+      }
+      
+      // Adicionar filtro de empresa se selecionado (apenas para ADMIN)
+      if (selectedCompanyId) {
+        params.companyId = selectedCompanyId
+      }
+      
+      const response = await leads.list(params)
 
       setLeadsData(response.data.data.leads)
       setTotalPages(response.data.data.pagination.totalPages)
@@ -89,10 +98,12 @@ export default function LeadsPage() {
 
   return (
     <div className="p-8 min-h-screen bg-transparent">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Leads</h1>
-        <p className="text-gray-400 mt-2">Gerencie todos os seus leads</p>
-      </div>
+      <PageHeader
+        title="Leads"
+        description="Gerencie todos os seus leads"
+        selectedCompanyId={selectedCompanyId}
+        onCompanyChange={setSelectedCompanyId}
+      />
 
       {/* Filters */}
       <Card className="mb-6 bg-[#1A1A1A] border-0">

@@ -5,6 +5,8 @@ import analyticsRouter from './analytics.routes';
 import integrationsRouter from './integrations.routes';
 import agentsRouter from './agents.routes';
 import authRouter from './auth.routes';
+import usersRouter from './users.routes';
+import companiesRouter from './companies.routes';
 
 const router = Router();
 
@@ -14,8 +16,10 @@ router.get('/', (req, res) => {
     name: 'Nexus Sales OS API',
     version: '1.0.0',
     status: 'active',
-    endpoints: {
+      endpoints: {
       auth: '/api/auth',
+      users: '/api/users',
+      companies: '/api/companies',
       leads: '/api/leads',
       webhooks: '/api/webhooks',
       analytics: '/api/analytics',
@@ -27,6 +31,8 @@ router.get('/', (req, res) => {
 
 // Mount routes
 router.use('/auth', authRouter);
+router.use('/users', usersRouter);
+router.use('/companies', companiesRouter);
 router.use('/leads', leadsRouter);
 router.use('/webhooks', webhooksRouter);
 router.use('/analytics', analyticsRouter);

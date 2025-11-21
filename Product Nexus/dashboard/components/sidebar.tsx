@@ -11,8 +11,11 @@ import {
   Settings,
   Plug,
   LogOut,
-  Bot
+  Bot,
+  Shield
 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { auth } from '@/lib/api'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -25,6 +28,24 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname()
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    checkUserRole()
+  }, [])
+
+  const checkUserRole = async () => {
+    try {
+      const response = await auth.getCurrentUser()
+      const user = response.data.data
+      setIsAdmin(user.role === 'ADMIN')
+    } catch (error) {
+      console.error('Error checking user role:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -68,6 +89,25 @@ export function Sidebar() {
             </Link>
           )
         })}
+        
+        {/* Admin Panel (apenas para ADMINs) */}
+        {!loading && isAdmin && (
+          <>
+            <div className="border-t border-white/10 my-2"></div>
+            <Link
+              href="/dashboard/admin"
+              className={cn(
+                'flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200',
+                pathname === '/dashboard/admin'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              )}
+            >
+              <Shield className="w-5 h-5" />
+              <span className="font-medium">Painel Admin</span>
+            </Link>
+          </>
+        )}
       </nav>
 
       <div className="p-4 mt-auto">

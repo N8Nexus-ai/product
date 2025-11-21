@@ -3,6 +3,7 @@ import { AgentService } from './agent.service';
 import { AppError } from '../../middleware/errorHandler';
 import { AuthRequest } from '../../middleware/auth';
 import { AgentStatus } from '@prisma/client';
+import { getCompanyIdForQuery, ensureCompanyAccess } from '../../utils/user-helper';
 
 export class AgentController {
   private agentService: AgentService;
@@ -18,14 +19,12 @@ export class AgentController {
         limit = 20,
         status,
         type,
-        search
+        search,
+        companyId: companyIdFromQuery
       } = req.query;
 
-      const companyId = req.user?.id; // In real app, get from user's company
-
-      if (!companyId) {
-        throw new AppError('Company ID not found', 400);
-      }
+      // Obtém o companyId baseado no role do usuário
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const result = await this.agentService.listAgents({
         companyId,
@@ -55,6 +54,9 @@ export class AgentController {
         throw new AppError('Agent not found', 404);
       }
 
+      // Verifica se o usuário tem acesso a este agente
+      await ensureCompanyAccess(req, agent.companyId);
+
       res.json({
         status: 'success',
         data: agent
@@ -67,10 +69,13 @@ export class AgentController {
   createAgent = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const agentData = req.body;
-      const companyId = req.user?.id; // In real app, get from user's company
-
+      
+      // ADMIN pode criar agente para qualquer empresa (se passar companyId no body)
+      // Outros usuários criam apenas para a própria empresa
+      const companyId = await getCompanyIdForQuery(req, agentData.companyId);
+      
       if (!companyId) {
-        throw new AppError('Company ID not found', 400);
+        throw new AppError('Company ID is required', 400);
       }
 
       const agent = await this.agentService.createAgent({
@@ -92,11 +97,18 @@ export class AgentController {
       const { id } = req.params;
       const updateData = req.body;
 
-      const agent = await this.agentService.updateAgent(id, updateData);
+      // Verifica acesso antes de atualizar
+      const agent = await this.agentService.getAgentById(id);
+      if (!agent) {
+        throw new AppError('Agent not found', 404);
+      }
+      await ensureCompanyAccess(req, agent.companyId);
+
+      const updatedAgent = await this.agentService.updateAgent(id, updateData);
 
       res.json({
         status: 'success',
-        data: agent
+        data: updatedAgent
       });
     } catch (error) {
       next(error);
@@ -106,6 +118,13 @@ export class AgentController {
   deleteAgent = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
+
+      // Verifica acesso antes de deletar
+      const agent = await this.agentService.getAgentById(id);
+      if (!agent) {
+        throw new AppError('Agent not found', 404);
+      }
+      await ensureCompanyAccess(req, agent.companyId);
 
       await this.agentService.deleteAgent(id);
 
@@ -127,7 +146,14 @@ export class AgentController {
         throw new AppError('Invalid status', 400);
       }
 
-      const agent = await this.agentService.updateAgentStatus(id, status as AgentStatus);
+      // Verifica acesso antes de atualizar status
+      const agent = await this.agentService.getAgentById(id);
+      if (!agent) {
+        throw new AppError('Agent not found', 404);
+      }
+      await ensureCompanyAccess(req, agent.companyId);
+
+      const updatedAgent = await this.agentService.updateAgentStatus(id, status as AgentStatus);
 
       res.json({
         status: 'success',

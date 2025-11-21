@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AnalyticsService } from './analytics.service';
 import { AuthRequest } from '../../middleware/auth';
+import { getCompanyIdForQuery } from '../../utils/user-helper';
 
 export class AnalyticsController {
   private analyticsService: AnalyticsService;
@@ -11,12 +12,12 @@ export class AnalyticsController {
 
   getDashboardMetrics = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id; // In real app, get from user's company
-      const { startDate, endDate } = req.query;
+      const { startDate, endDate, companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      // Obtém o companyId baseado no role do usuário
+      // ADMIN: undefined (ver todos) ou o companyId do query (se fornecido)
+      // Outros: companyId do próprio usuário
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const metrics = await this.analyticsService.getDashboardMetrics(
         companyId,
@@ -35,12 +36,9 @@ export class AnalyticsController {
 
   getFunnelData = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
-      const { startDate, endDate } = req.query;
+      const { startDate, endDate, companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const funnel = await this.analyticsService.getFunnelData(
         companyId,
@@ -59,12 +57,9 @@ export class AnalyticsController {
 
   getSourcesPerformance = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
-      const { startDate, endDate } = req.query;
+      const { startDate, endDate, companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const sources = await this.analyticsService.getSourcesPerformance(
         companyId,
@@ -83,12 +78,9 @@ export class AnalyticsController {
 
   getROI = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
-      const { startDate, endDate } = req.query;
+      const { startDate, endDate, companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const roi = await this.analyticsService.getROI(
         companyId,
@@ -107,12 +99,9 @@ export class AnalyticsController {
 
   getLeadQuality = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
-      const { startDate, endDate } = req.query;
+      const { startDate, endDate, companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const quality = await this.analyticsService.getLeadQuality(
         companyId,
@@ -131,12 +120,9 @@ export class AnalyticsController {
 
   getTimelineData = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
-      const { startDate, endDate, groupBy = 'day' } = req.query;
+      const { startDate, endDate, groupBy = 'day', companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const timeline = await this.analyticsService.getTimelineData(
         companyId,

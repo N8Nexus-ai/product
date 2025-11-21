@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IntegrationService } from './integration.service';
 import { AuthRequest } from '../../middleware/auth';
+import { getCompanyIdForQuery } from '../../utils/user-helper';
 
 export class IntegrationController {
   private integrationService: IntegrationService;
@@ -11,11 +12,10 @@ export class IntegrationController {
 
   listIntegrations = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id; // In real app, get from user's company
+      const { companyId: companyIdFromQuery } = req.query;
 
-      if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
-      }
+      // Obtém o companyId baseado no role do usuário
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const integrations = await this.integrationService.listIntegrations(companyId);
 
@@ -30,11 +30,14 @@ export class IntegrationController {
 
   configurePipedrive = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
       const { apiToken, domain } = req.body;
-
+      
+      // ADMIN pode configurar integração para qualquer empresa (se passar companyId no body)
+      // Outros usuários configuram apenas para a própria empresa
+      const companyId = await getCompanyIdForQuery(req, req.body.companyId);
+      
       if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
+        return res.status(400).json({ error: 'Company ID is required' });
       }
 
       const integration = await this.integrationService.configureIntegration(
@@ -55,11 +58,11 @@ export class IntegrationController {
 
   configureRDStation = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
       const { accessToken } = req.body;
-
+      const companyId = await getCompanyIdForQuery(req, req.body.companyId);
+      
       if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
+        return res.status(400).json({ error: 'Company ID is required' });
       }
 
       const integration = await this.integrationService.configureIntegration(
@@ -80,11 +83,11 @@ export class IntegrationController {
 
   configureHubSpot = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
       const { apiKey } = req.body;
-
+      const companyId = await getCompanyIdForQuery(req, req.body.companyId);
+      
       if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
+        return res.status(400).json({ error: 'Company ID is required' });
       }
 
       const integration = await this.integrationService.configureIntegration(
@@ -105,11 +108,11 @@ export class IntegrationController {
 
   configureSalesforce = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const companyId = req.user?.id;
       const { clientId, clientSecret, username, password } = req.body;
-
+      const companyId = await getCompanyIdForQuery(req, req.body.companyId);
+      
       if (!companyId) {
-        return res.status(400).json({ error: 'Company ID required' });
+        return res.status(400).json({ error: 'Company ID is required' });
       }
 
       const integration = await this.integrationService.configureIntegration(

@@ -5,8 +5,20 @@ const prisma = new PrismaClient();
 
 export class AnalyticsService {
   
-  async getDashboardMetrics(companyId: string, startDate?: string, endDate?: string) {
+  /**
+   * Constrói o filtro de companyId para queries
+   * Se companyId for undefined, retorna objeto vazio (sem filtro = ver todos)
+   */
+  private buildCompanyFilter(companyId?: string): any {
+    if (!companyId) {
+      return {};
+    }
+    return { companyId };
+  }
+  
+  async getDashboardMetrics(companyId?: string, startDate?: string, endDate?: string) {
     const dateFilter = this.buildDateFilter(startDate, endDate);
+    const companyFilter = this.buildCompanyFilter(companyId);
 
     const [
       totalLeads,
@@ -20,46 +32,46 @@ export class AnalyticsService {
     ] = await Promise.all([
       // Total leads
       prisma.lead.count({
-        where: { companyId, ...dateFilter }
+        where: { ...companyFilter, ...dateFilter }
       }),
 
       // Qualified leads
       prisma.lead.count({
-        where: { companyId, status: 'QUALIFIED', ...dateFilter }
+        where: { ...companyFilter, status: 'QUALIFIED', ...dateFilter }
       }),
 
       // Unqualified leads
       prisma.lead.count({
-        where: { companyId, status: 'UNQUALIFIED', ...dateFilter }
+        where: { ...companyFilter, status: 'UNQUALIFIED', ...dateFilter }
       }),
 
       // Sent to CRM
       prisma.lead.count({
-        where: { companyId, sentToCrm: true, ...dateFilter }
+        where: { ...companyFilter, sentToCrm: true, ...dateFilter }
       }),
 
       // Converted
       prisma.lead.count({
-        where: { companyId, status: 'CONVERTED', ...dateFilter }
+        where: { ...companyFilter, status: 'CONVERTED', ...dateFilter }
       }),
 
       // Average score
       prisma.lead.aggregate({
-        where: { companyId, score: { not: null }, ...dateFilter },
+        where: { ...companyFilter, score: { not: null }, ...dateFilter },
         _avg: { score: true }
       }),
 
       // Leads by source
       prisma.lead.groupBy({
         by: ['source'],
-        where: { companyId, ...dateFilter },
+        where: { ...companyFilter, ...dateFilter },
         _count: true
       }),
 
       // Leads by status
       prisma.lead.groupBy({
         by: ['status'],
-        where: { companyId, ...dateFilter },
+        where: { ...companyFilter, ...dateFilter },
         _count: true
       })
     ]);
@@ -94,8 +106,9 @@ export class AnalyticsService {
     };
   }
 
-  async getFunnelData(companyId: string, startDate?: string, endDate?: string) {
+  async getFunnelData(companyId?: string, startDate?: string, endDate?: string) {
     const dateFilter = this.buildDateFilter(startDate, endDate);
+    const companyFilter = this.buildCompanyFilter(companyId);
 
     const stages = [
       { status: 'NEW', name: 'Recebidos' },
@@ -109,7 +122,7 @@ export class AnalyticsService {
       stages.map(stage =>
         prisma.lead.count({
           where: {
-            companyId,
+            ...companyFilter,
             status: stage.status as any,
             ...dateFilter
           }
@@ -128,12 +141,13 @@ export class AnalyticsService {
     }));
   }
 
-  async getSourcesPerformance(companyId: string, startDate?: string, endDate?: string) {
+  async getSourcesPerformance(companyId?: string, startDate?: string, endDate?: string) {
     const dateFilter = this.buildDateFilter(startDate, endDate);
+    const companyFilter = this.buildCompanyFilter(companyId);
 
     const sources = await prisma.lead.groupBy({
       by: ['source'],
-      where: { companyId, ...dateFilter },
+      where: { ...companyFilter, ...dateFilter },
       _count: true,
       _avg: { score: true }
     });
@@ -143,7 +157,7 @@ export class AnalyticsService {
         const [qualified, converted] = await Promise.all([
           prisma.lead.count({
             where: {
-              companyId,
+              ...companyFilter,
               source: source.source,
               status: 'QUALIFIED',
               ...dateFilter
@@ -151,7 +165,7 @@ export class AnalyticsService {
           }),
           prisma.lead.count({
             where: {
-              companyId,
+              ...companyFilter,
               source: source.source,
               status: 'CONVERTED',
               ...dateFilter
@@ -182,12 +196,13 @@ export class AnalyticsService {
     return sourceStats.sort((a, b) => b.totalLeads - a.totalLeads);
   }
 
-  async getROI(companyId: string, startDate?: string, endDate?: string) {
+  async getROI(companyId?: string, startDate?: string, endDate?: string) {
     const dateFilter = this.buildDateFilter(startDate, endDate);
+    const companyFilter = this.buildCompanyFilter(companyId);
 
     // Get campaign data
     const campaigns = await prisma.campaign.findMany({
-      where: { companyId, ...dateFilter },
+      where: { ...companyFilter, ...dateFilter },
       include: {
         _count: {
           select: {
@@ -202,7 +217,7 @@ export class AnalyticsService {
 
     const qualified = await prisma.lead.count({
       where: {
-        companyId,
+        ...companyFilter,
         status: 'QUALIFIED',
         campaignId: { not: null },
         ...dateFilter
@@ -211,7 +226,7 @@ export class AnalyticsService {
 
     const converted = await prisma.lead.count({
       where: {
-        companyId,
+        ...companyFilter,
         status: 'CONVERTED',
         campaignId: { not: null },
         ...dateFilter
@@ -246,8 +261,9 @@ export class AnalyticsService {
     };
   }
 
-  async getLeadQuality(companyId: string, startDate?: string, endDate?: string) {
+  async getLeadQuality(companyId?: string, startDate?: string, endDate?: string) {
     const dateFilter = this.buildDateFilter(startDate, endDate);
+    const companyFilter = this.buildCompanyFilter(companyId);
 
     // Score distribution
     const scoreRanges = [
@@ -262,7 +278,7 @@ export class AnalyticsService {
       scoreRanges.map(range =>
         prisma.lead.count({
           where: {
-            companyId,
+            ...companyFilter,
             score: {
               gte: range.min,
               lte: range.max
@@ -279,11 +295,11 @@ export class AnalyticsService {
     // Email quality
     const [totalWithEmail, validEmails, disposableEmails] = await Promise.all([
       prisma.lead.count({
-        where: { companyId, email: { not: null }, ...dateFilter }
+        where: { ...companyFilter, email: { not: null }, ...dateFilter }
       }),
       prisma.lead.count({
         where: {
-          companyId,
+          ...companyFilter,
           email: { not: null },
           enrichedData: {
             path: ['emailValidation', 'valid'],
@@ -294,7 +310,7 @@ export class AnalyticsService {
       }),
       prisma.lead.count({
         where: {
-          companyId,
+          ...companyFilter,
           enrichedData: {
             path: ['emailValidation', 'disposable'],
             equals: true
@@ -318,15 +334,16 @@ export class AnalyticsService {
   }
 
   async getTimelineData(
-    companyId: string,
+    companyId?: string,
     startDate?: string,
     endDate?: string,
     groupBy: string = 'day'
   ) {
     const dateFilter = this.buildDateFilter(startDate, endDate);
+    const companyFilter = this.buildCompanyFilter(companyId);
 
     const leads = await prisma.lead.findMany({
-      where: { companyId, ...dateFilter },
+      where: { ...companyFilter, ...dateFilter },
       select: {
         createdAt: true,
         status: true,

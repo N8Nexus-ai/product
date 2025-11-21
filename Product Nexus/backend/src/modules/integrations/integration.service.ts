@@ -12,9 +12,16 @@ export class IntegrationService {
     this.crmService = new CRMService();
   }
 
-  async listIntegrations(companyId: string) {
+  async listIntegrations(companyId?: string) {
+    const where: any = {};
+    
+    // Se companyId for fornecido, filtra por ele (ADMIN pode ver todos se não fornecer)
+    if (companyId) {
+      where.companyId = companyId;
+    }
+    
     return prisma.integration.findMany({
-      where: { companyId },
+      where,
       orderBy: { createdAt: 'desc' }
     });
   }

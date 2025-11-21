@@ -66,6 +66,46 @@ Uma "Máquina de Vendas Autônoma" que:
 └─────────────────┘
 ```
 
+## 👥 Roles e Permissões
+
+O sistema possui três tipos de usuários:
+
+### ADMIN
+- ✅ **Acesso global** a dados de todas as empresas
+- ✅ **Filtro de empresa** visível em todas as páginas do dashboard
+- ✅ Pode ver, criar e gerenciar dados de qualquer empresa
+- ✅ Pode criar outros ADMINs (apenas via API `/api/users`)
+- ❌ Não possui `companyId` (acesso global)
+- ⚠️ ADMINs só podem ser criados:
+  - Via script interno: `npm run create-admin`
+  - Por outro ADMIN via API: `POST /api/users` (com role: ADMIN)
+
+### CLIENT
+- ✅ Acesso apenas aos dados da própria empresa
+- ❌ Não vê filtro de empresa (acessa apenas sua empresa)
+- ✅ Gerencia leads, campanhas e integrações da própria empresa
+
+### USER
+- ✅ Acesso apenas aos dados da própria empresa
+- ❌ Permissões limitadas (depende da configuração)
+
+### Filtro de Empresa (Admin Only)
+
+ADMINs têm acesso a um **filtro de empresa** visível ao lado do título em todas as páginas do dashboard:
+
+- **Dashboard**: Filtra métricas por empresa
+- **Leads**: Filtra leads por empresa
+- **Analytics**: Filtra análises por empresa
+- **Agentes**: Filtra agentes por empresa
+
+**Como usar:**
+1. Faça login como ADMIN
+2. Em qualquer página, veja o filtro ao lado do título
+3. Selecione "Todas as empresas" ou uma empresa específica
+4. Os dados são filtrados automaticamente
+
+---
+
 ## 📦 Estrutura do Projeto
 
 ```
@@ -73,6 +113,9 @@ nexus-sales-os/
 ├── backend/              # API REST (Node.js + TypeScript)
 │   ├── src/
 │   │   ├── modules/      # Módulos principais
+│   │   │   ├── companies/ # Gerenciamento de empresas
+│   │   │   ├── users/     # Gerenciamento de usuários
+│   │   │   └── ...        # Outros módulos
 │   │   ├── integrations/ # Integrações (CRMs, APIs externas)
 │   │   ├── services/     # Lógica de negócio
 │   │   └── database/     # Models e schemas
@@ -84,6 +127,8 @@ nexus-sales-os/
 │   │   ├── (dashboard)/  # Páginas do dashboard
 │   │   └── api/          # API Routes
 │   ├── components/       # Componentes React
+│   │   ├── company-filter.tsx  # Filtro de empresa (Admin)
+│   │   └── page-header.tsx     # Header com filtro
 │   └── package.json
 │
 ├── n8n-workflows/        # Templates de workflows
@@ -214,31 +259,38 @@ nexus-sales-os/
 - Docker (opcional, mas recomendado)
 - n8n (instância própria ou cloud)
 
-### Quick Start
+### Fluxo Recomendado de Setup
 
-```bash
-# Clone o repositório
-git clone <repo-url>
-cd nexus-sales-os
-
-# Instale as dependências
-npm install
-
-# Configure as variáveis de ambiente
-cp .env.example .env
-# Edite o .env com suas credenciais
-
-# Rode as migrations do banco
-cd backend
-npm run migrate
-
-# Inicie o backend
-npm run dev
-
-# Em outro terminal, inicie o dashboard
-cd ../dashboard
-npm run dev
-```
+1. **Instale as dependências** (veja Quick Start acima)
+2. **Configure o `.env`** com suas credenciais
+3. **Rode as migrations:**
+   ```bash
+   cd backend
+   npm run migrate
+   ```
+4. **Crie um usuário ADMIN:**
+   ```bash
+   cd backend
+   npm run create-admin
+   ```
+5. **(Opcional) Popule com dados fictícios:**
+   ```bash
+   cd backend
+   npm run seed
+   ```
+6. **Inicie os serviços:**
+   ```bash
+   # Terminal 1 - Backend
+   cd backend
+   npm run dev
+   
+   # Terminal 2 - Dashboard
+   cd dashboard
+   npm run dev
+   ```
+7. **Acesse o dashboard:**
+   - Frontend: `http://localhost:3000`
+   - Backend API: `http://localhost:3001`
 
 ### Configuração n8n
 
@@ -248,6 +300,131 @@ cd n8n-workflows
 ```
 
 Veja a [documentação completa de setup](./docs/setup/README.md) para instruções detalhadas.
+
+---
+
+## 🌱 Seed de Dados Fictícios (Empresas de Teste)
+
+Para popular o banco de dados com dados fictícios realistas e simular uma empresa cheia de dados:
+
+### O que o script cria:
+
+- ✅ **1 Empresa** fictícia (TechSolutions Brasil)
+- ✅ **6 Usuários** (1 CEO, 5 usuários regulares com roles CLIENT/USER)
+- ⚠️ **ADMIN não é criado** via seed (veja abaixo como criar admin)
+- ✅ **5 Integrações** (RD Station, Facebook Ads, Google Ads, Typeform, WhatsApp)
+- ✅ **6 Campanhas** ativas
+- ✅ **150 Leads** com diferentes statuses e dados enriquecidos
+- ✅ **Múltiplas Atividades** para cada lead (timeline completa)
+- ✅ **6 Tags** de leads
+- ✅ **4 Agentes** (IA Gemini, Automação, Scoring, Chatbot)
+- ✅ **91 dias de métricas diárias** (últimos 3 meses)
+- ✅ **50 logs do sistema**
+
+### Como executar:
+
+```bash
+# Entre na pasta backend
+cd backend
+
+# Execute o script de seed
+npm run seed
+```
+
+**Ou via Docker:**
+
+```bash
+docker-compose exec backend npm run seed
+```
+
+### ⚠️ Importante:
+
+1. **Rode as migrations primeiro!** O script verifica automaticamente se as migrations foram aplicadas.
+   ```bash
+   cd backend
+   npm run migrate
+   npm run seed
+   ```
+
+2. **Credenciais após o seed:**
+   - Você pode fazer login com qualquer usuário criado pela empresa fictícia
+   - Exemplo: `ceo@techsolutions.com` / `Senha123!`
+   - ⚠️ **ADMINs não são criados pelo seed** - veja abaixo como criar um admin
+
+3. **O script não limpa dados existentes** - ele apenas adiciona novos dados ao banco.
+
+📖 Veja a [documentação completa do seed](./backend/src/scripts/README.md) para mais detalhes e opções de personalização.
+
+---
+
+## 🔐 Criar Usuário ADMIN
+
+**IMPORTANTE:** ADMINs só devem ser criados pela equipe interna. O registro público (`/api/auth/register`) **nunca** cria usuários com role ADMIN.
+
+### Características do ADMIN:
+
+- ✅ **Acesso global** a todas as empresas do sistema
+- ✅ **Filtro de empresa** visível em todas as páginas do dashboard
+- ✅ Pode ver, editar e gerenciar dados de qualquer empresa
+- ✅ Pode criar outros ADMINs via API
+- ❌ **Não possui `companyId`** (acesso global)
+- ⚠️ **Apenas outros ADMINs** podem criar/editar ADMINs
+
+### Como criar um ADMIN:
+
+#### Opção 1: Via npm script (Recomendado)
+
+```bash
+# Entre na pasta backend
+cd backend
+
+# Execute o script interativo
+npm run create-admin
+```
+
+O script vai pedir:
+- Email do admin
+- Senha
+- Nome (opcional)
+
+#### Opção 2: Via linha de comando com argumentos
+
+```bash
+cd backend
+npx tsx src/scripts/create-admin.ts <email> <senha> <nome>
+```
+
+Exemplo:
+```bash
+npx tsx src/scripts/create-admin.ts admin@nexus.ai MinhaSenhaSegura123! "Admin Nexus"
+```
+
+#### Opção 3: Via variáveis de ambiente
+
+```bash
+cd backend
+ADMIN_EMAIL=admin@nexus.ai ADMIN_PASSWORD=SenhaSegura123! ADMIN_NAME="Admin Nexus" npm run create-admin
+```
+
+### Login após criar ADMIN:
+
+1. Acesse o dashboard: `http://localhost:3000/login`
+2. Use as credenciais que você criou
+3. Como ADMIN, você verá:
+   - **Filtro de empresa** ao lado do título em todas as páginas
+   - **Painel Admin** no menu lateral (ícone de escudo)
+   - Acesso para ver/editar contas de todas as empresas
+
+### Empresa Nexus (Especial para Admins):
+
+- A empresa "Nexus" é tratada de forma especial no sistema
+- ADMINs da empresa Nexus **não podem ter o role alterado**
+- ADMINs da Nexus **não podem ser deletados**
+- ADMINs sem `companyId` também aparecem quando você visualiza a empresa Nexus
+
+📖 Veja a [documentação completa](./backend/src/scripts/README.md) para mais detalhes.
+
+---
 
 ## 📖 Documentação
 

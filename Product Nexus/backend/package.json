@@ -11,6 +11,8 @@
     "migrate:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
+    "seed": "tsx src/scripts/seed-demo-data.ts",
+    "create-admin": "tsx src/scripts/create-admin.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "test": "jest",

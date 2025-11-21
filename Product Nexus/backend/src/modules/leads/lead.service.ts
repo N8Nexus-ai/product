@@ -7,7 +7,7 @@ import { logger } from '../../utils/logger';
 const prisma = new PrismaClient();
 
 interface ListLeadsParams {
-  companyId: string;
+  companyId?: string; // Opcional: undefined = ver todos (ADMIN), string = filtrar por empresa
   page: number;
   limit: number;
   status?: string;
@@ -30,7 +30,12 @@ export class LeadService {
     const { companyId, page, limit, status, source, search } = params;
     const skip = (page - 1) * limit;
 
-    const where: any = { companyId };
+    const where: any = {};
+    
+    // Se companyId for fornecido, filtra por ele (ADMIN pode ver todos se não fornecer)
+    if (companyId) {
+      where.companyId = companyId;
+    }
 
     if (status) {
       where.status = status;

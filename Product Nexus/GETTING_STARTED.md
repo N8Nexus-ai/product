@@ -86,6 +86,41 @@ curl -X POST http://localhost:3001/api/auth/register \
 
 ---
 
+## 🌱 Seed de Dados Fictícios (Opcional)
+
+**Quer simular uma empresa cheia de dados para testes ou demonstrações?**
+
+Execute o script de seed que cria:
+- ✅ 1 empresa fictícia
+- ✅ 7 usuários (admin + usuários)
+- ✅ 5 integrações (RD Station, Facebook, Google, Typeform, WhatsApp)
+- ✅ 6 campanhas ativas
+- ✅ 150 leads com diferentes statuses e dados enriquecidos
+- ✅ Atividades completas na timeline de cada lead
+- ✅ 6 tags de leads
+- ✅ 4 agentes (IA, Automação, Scoring, Chatbot)
+- ✅ 91 dias de métricas diárias (últimos 3 meses)
+- ✅ 50 logs do sistema
+
+### Como usar:
+
+```bash
+# Via npm script (recomendado)
+cd backend
+npm run seed
+
+# Ou via Docker
+docker-compose exec backend npm run seed
+```
+
+**Credenciais após o seed:**
+- Email: `admin@techsolutions.com`
+- Senha: `Senha123!`
+
+📖 Veja a [documentação completa do seed](./backend/src/scripts/README.md) para mais detalhes.
+
+---
+
 ## 🧪 Teste Rápido - Capture Seu Primeiro Lead
 
 ### Opção 1: Via Interface n8n

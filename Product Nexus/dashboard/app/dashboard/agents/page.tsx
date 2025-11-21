@@ -5,6 +5,7 @@ import { agents } from '@/lib/api'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/page-header'
 import {
   getAgentStatusColor,
   getAgentStatusLabel,
@@ -30,20 +31,27 @@ export default function AgentsPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string | undefined>()
 
   useEffect(() => {
     loadAgents()
-  }, [page, statusFilter])
+  }, [page, statusFilter, selectedCompanyId])
 
   const loadAgents = async () => {
     try {
       setLoading(true)
-      const response = await agents.list({
+      const params: any = {
         page,
         limit: 20,
         ...(statusFilter && { status: statusFilter }),
         ...(search && { search })
-      })
+      }
+      
+      if (selectedCompanyId) {
+        params.companyId = selectedCompanyId
+      }
+      
+      const response = await agents.list(params)
 
       setAgentsData(response.data.data.agents)
       setTotalPages(response.data.data.pagination.totalPages)
@@ -108,11 +116,14 @@ export default function AgentsPage() {
 
   return (
     <div className="p-8 min-h-screen bg-transparent">
-      <div className="mb-8 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Agentes</h1>
-          <p className="text-gray-400 mt-2">Gerencie seus agentes de automação (n8n)</p>
-        </div>
+      <div className="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <PageHeader
+          title="Agentes"
+          description="Gerencie seus agentes de automação (n8n)"
+          selectedCompanyId={selectedCompanyId}
+          onCompanyChange={setSelectedCompanyId}
+          className="mb-0"
+        />
         <Button onClick={() => setShowCreateModal(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Novo Agente

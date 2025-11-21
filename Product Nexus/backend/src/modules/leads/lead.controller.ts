@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { LeadService } from './lead.service';
 import { AppError } from '../../middleware/errorHandler';
 import { AuthRequest } from '../../middleware/auth';
+import { getCompanyIdForQuery, ensureCompanyAccess } from '../../utils/user-helper';
 
 export class LeadController {
   private leadService: LeadService;
@@ -17,14 +18,14 @@ export class LeadController {
         limit = 20,
         status,
         source,
-        search
+        search,
+        companyId: companyIdFromQuery // ADMIN pode passar companyId no query para filtrar
       } = req.query;
 
-      const companyId = req.user?.id; // In real app, get from user's company
-
-      if (!companyId) {
-        throw new AppError('Company ID not found', 400);
-      }
+      // Obtém o companyId baseado no role do usuário
+      // ADMIN: undefined (ver todos) ou o companyId do query (se fornecido)
+      // Outros: companyId do próprio usuário
+      const companyId = await getCompanyIdForQuery(req, companyIdFromQuery as string);
 
       const result = await this.leadService.listLeads({
         companyId,
@@ -54,6 +55,9 @@ export class LeadController {
         throw new AppError('Lead not found', 404);
       }
 
+      // Verifica se o usuário tem acesso a este lead (valida companyId)
+      await ensureCompanyAccess(req, lead.companyId);
+
       res.json({
         status: 'success',
         data: lead
@@ -66,10 +70,13 @@ export class LeadController {
   createLead = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const leadData = req.body;
-      const companyId = req.user?.id; // In real app, get from user's company
-
+      
+      // ADMIN pode criar lead para qualquer empresa (se passar companyId no body)
+      // Outros usuários criam apenas para a própria empresa
+      const companyId = await getCompanyIdForQuery(req, leadData.companyId);
+      
       if (!companyId) {
-        throw new AppError('Company ID not found', 400);
+        throw new AppError('Company ID is required', 400);
       }
 
       const lead = await this.leadService.createLead({

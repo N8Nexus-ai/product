@@ -132,5 +132,30 @@ export const agents = {
     api.post(`/agents/${id}/execute`),
 };
 
+export const companies = {
+  list: () =>
+    api.get('/companies'),
+  
+  get: (id: string) =>
+    api.get(`/companies/${id}`),
+};
+
+export const users = {
+  list: (params?: any) =>
+    api.get('/users', { params }),
+  
+  get: (id: string) =>
+    api.get(`/users/${id}`),
+  
+  create: (data: any) =>
+    api.post('/users', data),
+  
+  update: (id: string, data: any) =>
+    api.put(`/users/${id}`, data),
+  
+  delete: (id: string) =>
+    api.delete(`/users/${id}`),
+};
+
 export default api;
 

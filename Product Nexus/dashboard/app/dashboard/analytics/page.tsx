@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { analytics } from '@/lib/api'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatNumber, formatCurrency } from '@/lib/utils'
+import { PageHeader } from '@/components/page-header'
 import {
   BarChart,
   Bar,
@@ -28,18 +29,24 @@ export default function AnalyticsPage() {
   const [sources, setSources] = useState<any[]>([])
   const [timeline, setTimeline] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string | undefined>()
 
   useEffect(() => {
     loadAnalytics()
-  }, [])
+  }, [selectedCompanyId])
 
   const loadAnalytics = async () => {
     try {
+      const params: any = {}
+      if (selectedCompanyId) {
+        params.companyId = selectedCompanyId
+      }
+      
       const [roiRes, qualityRes, sourcesRes, timelineRes] = await Promise.all([
-        analytics.getROI(),
-        analytics.getLeadQuality(),
-        analytics.getSources(),
-        analytics.getTimeline({ groupBy: 'week' })
+        analytics.getROI(params),
+        analytics.getLeadQuality(params),
+        analytics.getSources(params),
+        analytics.getTimeline({ groupBy: 'week', ...params })
       ])
 
       setRoi(roiRes.data.data)
@@ -66,10 +73,12 @@ export default function AnalyticsPage() {
 
   return (
     <div className="p-8 min-h-screen bg-transparent">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Analytics</h1>
-        <p className="text-gray-400 mt-2">Análise detalhada de performance</p>
-      </div>
+      <PageHeader
+        title="Analytics"
+        description="Análise detalhada de performance"
+        selectedCompanyId={selectedCompanyId}
+        onCompanyChange={setSelectedCompanyId}
+      />
 
       {/* ROI Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

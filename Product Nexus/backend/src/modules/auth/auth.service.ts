@@ -45,13 +45,15 @@ export class AuthService {
       companyId = company.id;
     }
 
-    // Create user
+    // IMPORTANTE: Registro público NUNCA cria ADMIN
+    // ADMINs só podem ser criados internamente (via scripts, Prisma Studio, etc.)
+    // Usuários registrados publicamente sempre começam como CLIENT
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
-        role: 'CLIENT',
+        role: 'CLIENT', // Sempre CLIENT para registro público
         companyId
       },
       include: {
