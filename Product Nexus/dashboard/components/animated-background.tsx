@@ -104,11 +104,13 @@ export function AnimatedBackground() {
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-10"
-      style={{ background: '#0D0D0D' }}
-    />
+    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{ background: '#0D0D0D' }}
+      />
+    </div>
   )
 }
 

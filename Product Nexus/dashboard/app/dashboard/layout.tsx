@@ -9,10 +9,10 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen overflow-hidden bg-[#0D0D0D] relative">
       <AnimatedBackground />
-      <div className="relative z-20">
+      <div className="relative" style={{ zIndex: 50 }}>
         <Sidebar />
       </div>
-      <main className="flex-1 overflow-y-auto relative z-10">
+      <main className="flex-1 overflow-y-auto relative" style={{ zIndex: 10 }}>
         {children}
       </main>
     </div>
