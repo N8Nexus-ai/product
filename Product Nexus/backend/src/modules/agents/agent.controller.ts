@@ -141,13 +141,14 @@ export class AgentController {
   executeAgent = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
+      const inputData = req.body; // Can include leadId, prompt, etc.
 
-      const agent = await this.agentService.executeAgent(id);
+      const agent = await this.agentService.executeAgent(id, inputData);
 
       res.json({
         status: 'success',
         data: agent,
-        message: 'Agent execution triggered'
+        message: 'Agent executed successfully'
       });
     } catch (error) {
       next(error);

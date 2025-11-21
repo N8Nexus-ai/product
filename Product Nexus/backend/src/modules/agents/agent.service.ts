@@ -1,5 +1,6 @@
 import { PrismaClient, Agent, AgentStatus, AgentType } from '@prisma/client';
 import { logger } from '../../utils/logger';
+import { GeminiService } from '../../services/gemini.service';
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,12 @@ interface CreateAgentData {
 }
 
 export class AgentService {
+  private geminiService: GeminiService;
+
+  constructor() {
+    this.geminiService = new GeminiService();
+  }
+
   async listAgents(params: ListAgentsParams) {
     const { companyId, page, limit, status, type, search } = params;
     const skip = (page - 1) * limit;
@@ -147,13 +154,17 @@ export class AgentService {
     return agent;
   }
 
-  async executeAgent(id: string) {
+  async executeAgent(id: string, inputData?: any) {
     const agent = await prisma.agent.findUnique({
       where: { id }
     });
 
     if (!agent) {
       throw new Error('Agent not found');
+    }
+
+    if (agent.status !== AgentStatus.ACTIVE) {
+      throw new Error(`Agent is not active. Current status: ${agent.status}`);
     }
 
     // Update execution stats
@@ -166,20 +177,67 @@ export class AgentService {
       }
     });
 
-    // TODO: Here you would trigger the n8n workflow
-    // For now, we'll just simulate it
     logger.info(`Executing agent ${id} (${agent.name})`);
-    
-    // Simulate execution
-    setTimeout(async () => {
+
+    try {
+      let result: any = null;
+
+      // Check if agent uses Gemini
+      const config = agent.config as any;
+      if (config?.provider === 'gemini') {
+        // Execute Gemini-based agent
+        if (inputData && inputData.leadId) {
+          // Analyze lead
+          const lead = await prisma.lead.findUnique({
+            where: { id: inputData.leadId },
+            include: { company: true }
+          });
+
+          if (lead) {
+            logger.info(`Analyzing lead ${lead.id} with Gemini`);
+            const analysis = await this.geminiService.analyzeLead(lead);
+            result = analysis;
+          }
+        } else {
+          // Simple text generation test
+          const prompt = inputData?.prompt || 'Olá! Você está funcionando?';
+          logger.info(`Testing Gemini with prompt: ${prompt}`);
+          const response = await this.geminiService.generateText(prompt, {
+            model: config.model || 'gemini-pro',
+            temperature: config.temperature || 0.7,
+            maxTokens: config.maxTokens || 2048,
+            systemInstruction: config.instructions
+          });
+          result = { response };
+        }
+      }
+
+      // Update agent with success status
       await prisma.agent.update({
         where: { id },
         data: {
           lastExecutionStatus: 'success'
         }
       });
-    }, 2000);
 
-    return updatedAgent;
+      logger.info(`Agent ${id} executed successfully`);
+
+      return {
+        ...updatedAgent,
+        executionResult: result
+      };
+    } catch (error: any) {
+      logger.error(`Error executing agent ${id}:`, error);
+
+      // Update agent with error status
+      await prisma.agent.update({
+        where: { id },
+        data: {
+          lastExecutionStatus: 'error'
+        }
+      });
+
+      throw new Error(`Agent execution failed: ${error.message}`);
+    }
   }
 }

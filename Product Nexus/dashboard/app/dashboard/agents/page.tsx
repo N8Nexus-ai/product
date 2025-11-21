@@ -72,10 +72,13 @@ export default function AgentsPage() {
 
   const handleExecute = async (id: string) => {
     try {
-      await agents.execute(id)
+      const response = await agents.execute(id, { prompt: 'Olá! Você está funcionando? Responda brevemente.' })
+      console.log('Agent execution result:', response.data)
+      alert('Agente executado com sucesso! Verifique o console para ver o resultado.')
       loadAgents()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error executing agent:', error)
+      alert(`Erro ao executar agente: ${error.response?.data?.message || error.message}`)
     }
   }
 

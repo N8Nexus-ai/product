@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { auth } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { AnimatedBackground } from '@/components/animated-background'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -33,8 +34,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0D0D0D] px-4">
-      <Card className="w-full max-w-md bg-[#1A1A1A] border-white/10">
+    <div className="min-h-screen flex items-center justify-center bg-[#0D0D0D] px-4 relative">
+      <AnimatedBackground />
+      <Card className="w-full max-w-md bg-[#1A1A1A]/90 backdrop-blur-sm border-white/10 relative z-10 shadow-2xl">
         <CardHeader className="space-y-1">
           <div className="flex flex-col items-center space-y-4">
             {/* Logo - Adicione sua logo em public/logo.png */}
