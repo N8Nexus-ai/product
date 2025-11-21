@@ -33,16 +33,17 @@ export function Sidebar() {
 
   return (
     <div className="flex flex-col w-64 bg-[#0D0D0D] text-white border-r border-white/10">
-      <div className="flex items-center justify-center h-16 border-b border-white/10 px-4">
+      <div className="flex items-center justify-center h-20 border-b border-white/10 px-4 py-3">
         {/* Logo Nexus */}
-        <div className="flex items-center">
+        <div className="relative w-full h-full flex items-center justify-center">
           <Image 
             src="/logo-dark.png" 
             alt="Nexus Sales OS" 
-            width={140} 
-            height={45}
-            className="object-contain"
+            width={160} 
+            height={50}
+            className="object-contain max-w-full max-h-full"
             priority
+            style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
           />
         </div>
       </div>
