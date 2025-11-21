@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { auth } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -35,12 +36,27 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center">
-            Nexus Sales OS
-          </CardTitle>
-          <CardDescription className="text-center">
-            Sistema Operacional de Vendas
-          </CardDescription>
+          <div className="flex flex-col items-center space-y-4">
+            {/* Logo - Adicione sua logo em public/logo.png */}
+            <div className="relative w-48 h-16">
+              <Image 
+                src="/logo.png" 
+                alt="Nexus Sales OS" 
+                fill
+                className="object-contain"
+                onError={(e) => {
+                  // Se a logo não existir, mostra o texto
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            </div>
+            <CardTitle className="text-3xl font-bold text-center" style={{ display: 'none' }}>
+              Nexus Sales OS
+            </CardTitle>
+            <CardDescription className="text-center">
+              Sistema Operacional de Vendas
+            </CardDescription>
+          </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">

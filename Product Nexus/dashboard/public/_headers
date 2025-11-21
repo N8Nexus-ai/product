@@ -1,0 +1,7 @@
+/favicon.png
+  Cache-Control: public, max-age=86400
+  Content-Type: image/png
+
+/BingSiteAuth.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=0

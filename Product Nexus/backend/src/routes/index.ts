@@ -3,6 +3,7 @@ import leadsRouter from './leads.routes';
 import webhooksRouter from './webhooks.routes';
 import analyticsRouter from './analytics.routes';
 import integrationsRouter from './integrations.routes';
+import agentsRouter from './agents.routes';
 import authRouter from './auth.routes';
 
 const router = Router();
@@ -18,7 +19,8 @@ router.get('/', (req, res) => {
       leads: '/api/leads',
       webhooks: '/api/webhooks',
       analytics: '/api/analytics',
-      integrations: '/api/integrations'
+      integrations: '/api/integrations',
+      agents: '/api/agents'
     }
   });
 });
@@ -29,6 +31,7 @@ router.use('/leads', leadsRouter);
 router.use('/webhooks', webhooksRouter);
 router.use('/analytics', analyticsRouter);
 router.use('/integrations', integrationsRouter);
+router.use('/agents', agentsRouter);
 
 export default router;
 

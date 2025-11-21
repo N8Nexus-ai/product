@@ -78,3 +78,33 @@ export function getScoreLabel(score: number): string {
   return 'Baixo'
 }
 
+export function getAgentStatusColor(status: string): string {
+  const colors: { [key: string]: string } = {
+    ACTIVE: 'bg-green-100 text-green-800',
+    INACTIVE: 'bg-gray-100 text-gray-800',
+    PAUSED: 'bg-yellow-100 text-yellow-800',
+    ERROR: 'bg-red-100 text-red-800',
+  }
+  return colors[status] || 'bg-gray-100 text-gray-800'
+}
+
+export function getAgentStatusLabel(status: string): string {
+  const labels: { [key: string]: string } = {
+    ACTIVE: 'Ativo',
+    INACTIVE: 'Inativo',
+    PAUSED: 'Pausado',
+    ERROR: 'Erro',
+  }
+  return labels[status] || status
+}
+
+export function getAgentTypeLabel(type: string): string {
+  const labels: { [key: string]: string } = {
+    N8N: 'n8n',
+    AUTOMATION: 'Automação',
+    CHATBOT: 'Chatbot',
+    OTHER: 'Outro',
+  }
+  return labels[type] || type
+}
+

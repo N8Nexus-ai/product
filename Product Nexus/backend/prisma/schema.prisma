@@ -59,6 +59,8 @@ model Company {
   leads        Lead[]
   integrations Integration[]
   campaigns    Campaign[]
+  dailyMetrics DailyMetric[]
+  agents       Agent[]
 
   @@map("companies")
 }
@@ -263,6 +265,57 @@ model DailyMetric {
   @@index([companyId])
   @@index([date])
   @@map("daily_metrics")
+}
+
+// ============================================
+// AGENTS (n8n Workflows)
+// ============================================
+
+model Agent {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  type        AgentType @default(N8N)
+  status      AgentStatus @default(INACTIVE)
+  
+  // n8n Configuration
+  n8nWorkflowId String? // Workflow ID in n8n
+  n8nWebhookUrl String? // Webhook URL from n8n
+  
+  // Configuration
+  config      Json? // Store custom configuration
+  triggerConfig Json? // How to trigger this agent
+  
+  // Execution Stats
+  executionCount Int @default(0)
+  lastExecutedAt DateTime?
+  lastExecutionStatus String? // success, error, running
+  
+  // Relations
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([status])
+  @@index([type])
+  @@map("agents")
+}
+
+enum AgentType {
+  N8N
+  AUTOMATION
+  CHATBOT
+  OTHER
+}
+
+enum AgentStatus {
+  ACTIVE
+  INACTIVE
+  PAUSED
+  ERROR
 }
 
 // ============================================

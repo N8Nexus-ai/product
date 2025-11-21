@@ -109,5 +109,28 @@ export const integrations = {
     api.delete(`/integrations/${id}`),
 };
 
+export const agents = {
+  list: (params?: any) =>
+    api.get('/agents', { params }),
+  
+  get: (id: string) =>
+    api.get(`/agents/${id}`),
+  
+  create: (data: any) =>
+    api.post('/agents', data),
+  
+  update: (id: string, data: any) =>
+    api.put(`/agents/${id}`, data),
+  
+  delete: (id: string) =>
+    api.delete(`/agents/${id}`),
+  
+  updateStatus: (id: string, status: string) =>
+    api.patch(`/agents/${id}/status`, { status }),
+  
+  execute: (id: string) =>
+    api.post(`/agents/${id}/execute`),
+};
+
 export default api;
 
