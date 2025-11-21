@@ -77,7 +77,7 @@ export default function DashboardPage() {
   const overview = metrics?.overview || {}
 
   return (
-    <div className="p-8 min-h-screen bg-[#0D0D0D]">
+    <div className="p-8 min-h-screen bg-transparent">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
         <p className="text-gray-400 mt-2">Visão geral do seu funil de vendas</p>
@@ -85,7 +85,7 @@ export default function DashboardPage() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:bg-[#1F1F1F] transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Total de Leads</CardTitle>
             <Users className="h-5 w-5 text-blue-400" />
@@ -98,7 +98,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:bg-[#1F1F1F] transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Leads Qualificados</CardTitle>
             <CheckCircle2 className="h-5 w-5 text-green-400" />
@@ -111,7 +111,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:bg-[#1F1F1F] transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Enviados ao CRM</CardTitle>
             <Send className="h-5 w-5 text-blue-400" />
@@ -124,7 +124,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:bg-[#1F1F1F] transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Taxa de Conversão</CardTitle>
             <Target className="h-5 w-5 text-purple-400" />
@@ -140,7 +140,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Funnel Chart */}
-        <Card className="bg-[#1A1A1A] border-white/10 lg:col-span-1">
+        <Card className="bg-[#1A1A1A] border-0 lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-white">Funil de Conversão</CardTitle>
             <CardDescription className="text-gray-400">Progressão dos leads pelo funil</CardDescription>
@@ -159,7 +159,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Timeline Chart */}
-        <Card className="bg-[#1A1A1A] border-white/10 lg:col-span-1">
+        <Card className="bg-[#1A1A1A] border-0 lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-white">Leads nos Últimos 7 Dias</CardTitle>
             <CardDescription className="text-gray-400">Volume diário de leads</CardDescription>
@@ -181,7 +181,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Sources Performance */}
-      <Card className="bg-[#1A1A1A] border-white/10">
+      <Card className="bg-[#1A1A1A] border-0">
         <CardHeader>
           <CardTitle className="text-white">Performance por Fonte</CardTitle>
           <CardDescription className="text-gray-400">Análise de leads por origem</CardDescription>

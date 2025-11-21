@@ -65,7 +65,7 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="p-8 min-h-screen bg-[#0D0D0D]">
+    <div className="p-8 min-h-screen bg-transparent">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white">Analytics</h1>
         <p className="text-gray-400 mt-2">Análise detalhada de performance</p>
@@ -85,49 +85,49 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Custo por Lead</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">Custo por Lead</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-white">
               {roi ? formatCurrency(parseFloat(roi.costPerLead)) : '-'}
             </div>
-            <p className="text-xs text-muted-foreground">CPL médio</p>
+            <p className="text-xs text-gray-500">CPL médio</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Custo por Qualificado</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">Custo por Qualificado</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-white">
               {roi ? formatCurrency(parseFloat(roi.costPerQualified)) : '-'}
             </div>
-            <p className="text-xs text-muted-foreground">CPQ médio</p>
+            <p className="text-xs text-gray-500">CPQ médio</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">ROI</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">ROI</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-green-400">
               {roi?.roi || '0%'}
             </div>
-            <p className="text-xs text-muted-foreground">Retorno sobre investimento</p>
+            <p className="text-xs text-gray-500">Retorno sobre investimento</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Score Distribution */}
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10">
           <CardHeader>
-            <CardTitle>Distribuição de Score</CardTitle>
-            <CardDescription>Qualidade dos leads por faixa de pontuação</CardDescription>
+            <CardTitle className="text-white">Distribuição de Score</CardTitle>
+            <CardDescription className="text-gray-400">Qualidade dos leads por faixa de pontuação</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -153,10 +153,10 @@ export default function AnalyticsPage() {
         </Card>
 
         {/* Sources Comparison */}
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10">
           <CardHeader>
-            <CardTitle>Comparação de Fontes</CardTitle>
-            <CardDescription>Volume de leads por origem</CardDescription>
+            <CardTitle className="text-white">Comparação de Fontes</CardTitle>
+            <CardDescription className="text-gray-400">Volume de leads por origem</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -174,10 +174,10 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Timeline */}
-      <Card className="mb-8">
+      <Card className="mb-8 bg-[#1A1A1A] border-white/10">
         <CardHeader>
-          <CardTitle>Evolução Semanal</CardTitle>
-          <CardDescription>Tendência de leads ao longo do tempo</CardDescription>
+          <CardTitle className="text-white">Evolução Semanal</CardTitle>
+          <CardDescription className="text-gray-400">Tendência de leads ao longo do tempo</CardDescription>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -196,33 +196,33 @@ export default function AnalyticsPage() {
       </Card>
 
       {/* Campaign Performance */}
-      <Card>
+      <Card className="bg-[#1A1A1A] border-white/10">
         <CardHeader>
-          <CardTitle>Performance de Campanhas</CardTitle>
-          <CardDescription>Detalhamento por campanha</CardDescription>
+          <CardTitle className="text-white">Performance de Campanhas</CardTitle>
+          <CardDescription className="text-gray-400">Detalhamento por campanha</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b">
-                  <th className="text-left py-3 px-4 font-medium">Campanha</th>
-                  <th className="text-left py-3 px-4 font-medium">Fonte</th>
-                  <th className="text-right py-3 px-4 font-medium">Investimento</th>
-                  <th className="text-right py-3 px-4 font-medium">Leads</th>
-                  <th className="text-right py-3 px-4 font-medium">CPL</th>
+                <tr className="border-b border-white/10">
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Campanha</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Fonte</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Investimento</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Leads</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">CPL</th>
                 </tr>
               </thead>
               <tbody>
                 {(roi?.campaigns || []).map((campaign: any, index: number) => (
-                  <tr key={index} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4">{campaign.name}</td>
-                    <td className="py-3 px-4 capitalize">{campaign.source}</td>
-                    <td className="text-right py-3 px-4">
+                  <tr key={index} className="border-b border-white/5 hover:bg-white/5">
+                    <td className="py-3 px-4 text-white">{campaign.name}</td>
+                    <td className="py-3 px-4 capitalize text-white">{campaign.source}</td>
+                    <td className="text-right py-3 px-4 text-white">
                       {formatCurrency(campaign.spend)}
                     </td>
-                    <td className="text-right py-3 px-4">{formatNumber(campaign.leads)}</td>
-                    <td className="text-right py-3 px-4">
+                    <td className="text-right py-3 px-4 text-white">{formatNumber(campaign.leads)}</td>
+                    <td className="text-right py-3 px-4 text-white">
                       {formatCurrency(parseFloat(campaign.costPerLead))}
                     </td>
                   </tr>

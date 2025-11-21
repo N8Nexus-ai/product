@@ -86,14 +86,14 @@ export default function LeadsPage() {
   }
 
   return (
-    <div className="p-8 min-h-screen bg-[#0D0D0D]">
+    <div className="p-8 min-h-screen bg-transparent">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white">Leads</h1>
         <p className="text-gray-400 mt-2">Gerencie todos os seus leads</p>
       </div>
 
       {/* Filters */}
-      <Card className="mb-6 bg-[#1A1A1A] border-white/10">
+      <Card className="mb-6 bg-[#1A1A1A] border-0">
         <CardContent className="pt-6">
           <div className="flex flex-col md:flex-row gap-4">
             <form onSubmit={handleSearch} className="flex-1 flex gap-2">
@@ -139,7 +139,7 @@ export default function LeadsPage() {
       </Card>
 
       {/* Leads Table */}
-      <Card className="bg-[#1A1A1A] border-white/10">
+      <Card className="bg-[#1A1A1A] border-0">
         <CardContent className="pt-6">
           <div className="overflow-x-auto">
             <table className="w-full">
