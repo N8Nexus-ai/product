@@ -12,10 +12,14 @@ export function AnimatedBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Configuração
+    // Configuração - forçar tamanho da janela
     const setCanvasSize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      const width = window.innerWidth
+      const height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
     }
     setCanvasSize()
 
@@ -48,7 +52,9 @@ export function AnimatedBackground() {
     let animationFrameId: number
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(13, 13, 13, 0.1)'
+      // Limpar canvas com fundo escuro
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.fillStyle = '#0D0D0D'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       // Atualizar e desenhar partículas
@@ -104,13 +110,18 @@ export function AnimatedBackground() {
   }, [])
 
   return (
-    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ background: '#0D0D0D' }}
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full pointer-events-none"
+      style={{ 
+        zIndex: 0,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh'
+      }}
+    />
   )
 }
 

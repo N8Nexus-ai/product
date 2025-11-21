@@ -240,4 +240,61 @@ export class AgentService {
       throw new Error(`Agent execution failed: ${error.message}`);
     }
   }
+
+  async chatWithAgent(message: string, conversation: Array<{ role: string; content: string }> = []) {
+    try {
+      // Buscar o agente assistente padrão ativo
+      const agent = await prisma.agent.findFirst({
+        where: {
+          status: AgentStatus.ACTIVE,
+          config: {
+            path: ['provider'],
+            equals: 'gemini'
+          }
+        },
+        orderBy: { createdAt: 'desc' }
+      });
+
+      if (!agent) {
+        throw new Error('No active assistant agent found');
+      }
+
+      const config = agent.config as any;
+
+      // Construir o contexto da conversa
+      let prompt = message;
+      
+      if (conversation.length > 0) {
+        // Construir histórico de conversa para contexto
+        const conversationHistory = conversation
+          .slice(-5) // Últimas 5 mensagens para contexto
+          .map(msg => {
+            const role = msg.role === 'user' ? 'Usuário' : 'Assistente';
+            return `${role}: ${msg.content}`;
+          })
+          .join('\n');
+        
+        prompt = `${conversationHistory}\nUsuário: ${message}\nAssistente:`;
+      }
+
+      logger.info(`Chat with agent ${agent.id}: ${message.substring(0, 50)}...`);
+
+      // Gerar resposta usando Gemini
+      const response = await this.geminiService.generateText(prompt, {
+        model: config?.model || 'gemini-pro',
+        temperature: config?.temperature || 0.7,
+        maxTokens: config?.maxTokens || 2048,
+        systemInstruction: config?.instructions || 'Você é um assistente útil e profissional. Responda sempre em português brasileiro de forma clara e objetiva.'
+      });
+
+      return {
+        response: response.trim(),
+        agentId: agent.id,
+        agentName: agent.name
+      };
+    } catch (error: any) {
+      logger.error('Error in chat with agent:', error);
+      throw new Error(`Failed to chat with agent: ${error.message}`);
+    }
+  }
 }

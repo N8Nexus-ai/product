@@ -154,4 +154,23 @@ export class AgentController {
       next(error);
     }
   };
+
+  chatWithAgent = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const { message, conversation = [] } = req.body;
+
+      if (!message || typeof message !== 'string') {
+        throw new AppError('Message is required', 400);
+      }
+
+      const result = await this.agentService.chatWithAgent(message, conversation);
+
+      res.json({
+        status: 'success',
+        data: result
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

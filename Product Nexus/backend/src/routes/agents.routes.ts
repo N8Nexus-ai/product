@@ -50,4 +50,10 @@ router.patch('/:id/status', agentController.updateStatus);
  */
 router.post('/:id/execute', agentController.executeAgent);
 
+/**
+ * POST /api/agents/chat
+ * Chat with the assistant agent
+ */
+router.post('/chat', agentController.chatWithAgent);
+
 export default router;
