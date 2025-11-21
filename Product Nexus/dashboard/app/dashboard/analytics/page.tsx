@@ -65,23 +65,23 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 min-h-screen bg-[#0D0D0D]">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-        <p className="text-gray-600 mt-2">Análise detalhada de performance</p>
+        <h1 className="text-3xl font-bold text-white">Analytics</h1>
+        <p className="text-gray-400 mt-2">Análise detalhada de performance</p>
       </div>
 
       {/* ROI Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Investimento Total</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">Investimento Total</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-white">
               {roi ? formatCurrency(parseFloat(roi.totalSpend)) : '-'}
             </div>
-            <p className="text-xs text-muted-foreground">Em campanhas</p>
+            <p className="text-xs text-gray-500">Em campanhas</p>
           </CardContent>
         </Card>
 

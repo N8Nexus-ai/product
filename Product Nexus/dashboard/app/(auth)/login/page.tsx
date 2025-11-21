@@ -33,8 +33,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-[#0D0D0D] px-4">
+      <Card className="w-full max-w-md bg-[#1A1A1A] border-white/10">
         <CardHeader className="space-y-1">
           <div className="flex flex-col items-center space-y-4">
             {/* Logo - Adicione sua logo em public/logo.png */}
@@ -61,7 +61,7 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium text-gray-300">
                 Email
               </label>
               <input
@@ -70,13 +70,13 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
                 placeholder="seu@email.com"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium text-gray-300">
                 Senha
               </label>
               <input
@@ -85,31 +85,31 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
                 placeholder="••••••••"
               />
             </div>
 
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
+              <div className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg">
                 {error}
               </div>
             )}
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-6 text-base rounded-lg shadow-lg shadow-primary/20"
               disabled={loading}
             >
               {loading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
-            <p>Conta de demonstração:</p>
-            <p className="mt-1">
-              <strong>Email:</strong> demo@nexus.ai<br />
-              <strong>Senha:</strong> demo123
+          <div className="mt-6 text-center text-sm text-gray-500">
+            <p>Usuário padrão:</p>
+            <p className="mt-2 text-gray-400">
+              <strong className="text-gray-300">Email:</strong> admin@nexus.ai<br />
+              <strong className="text-gray-300">Senha:</strong> Admin123!
             </p>
           </div>
         </CardContent>

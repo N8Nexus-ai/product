@@ -77,61 +77,61 @@ export default function DashboardPage() {
   const overview = metrics?.overview || {}
 
   return (
-    <div className="p-8">
+    <div className="p-8 min-h-screen bg-[#0D0D0D]">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-2">Visão geral do seu funil de vendas</p>
+        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+        <p className="text-gray-400 mt-2">Visão geral do seu funil de vendas</p>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Leads</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-gray-300">Total de Leads</CardTitle>
+            <Users className="h-5 w-5 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(overview.totalLeads || 0)}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-white">{formatNumber(overview.totalLeads || 0)}</div>
+            <p className="text-xs text-gray-500 mt-1">
               Leads recebidos no período
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Leads Qualificados</CardTitle>
-            <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-gray-300">Leads Qualificados</CardTitle>
+            <CheckCircle2 className="h-5 w-5 text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(overview.qualifiedLeads || 0)}</div>
-            <p className="text-xs text-muted-foreground">
-              Taxa de qualificação: {overview.qualificationRate}
+            <div className="text-3xl font-bold text-white">{formatNumber(overview.qualifiedLeads || 0)}</div>
+            <p className="text-xs text-gray-500 mt-1">
+              Taxa de qualificação: <span className="text-green-400 font-medium">{overview.qualificationRate}</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Enviados ao CRM</CardTitle>
-            <Send className="h-4 w-4 text-blue-600" />
+            <CardTitle className="text-sm font-medium text-gray-300">Enviados ao CRM</CardTitle>
+            <Send className="h-5 w-5 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(overview.sentToCrm || 0)}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-white">{formatNumber(overview.sentToCrm || 0)}</div>
+            <p className="text-xs text-gray-500 mt-1">
               Integração automática
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Taxa de Conversão</CardTitle>
-            <Target className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-medium text-gray-300">Taxa de Conversão</CardTitle>
+            <Target className="h-5 w-5 text-purple-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{overview.conversionRate}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-white">{overview.conversionRate}</div>
+            <p className="text-xs text-gray-500 mt-1">
               Leads convertidos em vendas
             </p>
           </CardContent>
@@ -140,10 +140,10 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Funnel Chart */}
-        <Card className="lg:col-span-1">
+        <Card className="bg-[#1A1A1A] border-white/10 lg:col-span-1">
           <CardHeader>
-            <CardTitle>Funil de Conversão</CardTitle>
-            <CardDescription>Progressão dos leads pelo funil</CardDescription>
+            <CardTitle className="text-white">Funil de Conversão</CardTitle>
+            <CardDescription className="text-gray-400">Progressão dos leads pelo funil</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -159,10 +159,10 @@ export default function DashboardPage() {
         </Card>
 
         {/* Timeline Chart */}
-        <Card className="lg:col-span-1">
+        <Card className="bg-[#1A1A1A] border-white/10 lg:col-span-1">
           <CardHeader>
-            <CardTitle>Leads nos Últimos 7 Dias</CardTitle>
-            <CardDescription>Volume diário de leads</CardDescription>
+            <CardTitle className="text-white">Leads nos Últimos 7 Dias</CardTitle>
+            <CardDescription className="text-gray-400">Volume diário de leads</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -181,31 +181,31 @@ export default function DashboardPage() {
       </div>
 
       {/* Sources Performance */}
-      <Card>
+      <Card className="bg-[#1A1A1A] border-white/10">
         <CardHeader>
-          <CardTitle>Performance por Fonte</CardTitle>
-          <CardDescription>Análise de leads por origem</CardDescription>
+          <CardTitle className="text-white">Performance por Fonte</CardTitle>
+          <CardDescription className="text-gray-400">Análise de leads por origem</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b">
-                  <th className="text-left py-3 px-4 font-medium">Fonte</th>
-                  <th className="text-right py-3 px-4 font-medium">Total</th>
-                  <th className="text-right py-3 px-4 font-medium">Qualificados</th>
-                  <th className="text-right py-3 px-4 font-medium">Taxa Qual.</th>
-                  <th className="text-right py-3 px-4 font-medium">Score Médio</th>
+                <tr className="border-b border-white/10">
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Fonte</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Total</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Qualificados</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Taxa Qual.</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Score Médio</th>
                 </tr>
               </thead>
               <tbody>
                 {sources.map((source: any, index: number) => (
-                  <tr key={index} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4 capitalize">{source.source}</td>
-                    <td className="text-right py-3 px-4">{formatNumber(source.totalLeads)}</td>
-                    <td className="text-right py-3 px-4">{formatNumber(source.qualifiedLeads)}</td>
-                    <td className="text-right py-3 px-4">{source.qualificationRate}</td>
-                    <td className="text-right py-3 px-4">{source.averageScore}</td>
+                  <tr key={index} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                    <td className="py-3 px-4 capitalize text-white">{source.source}</td>
+                    <td className="text-right py-3 px-4 text-white">{formatNumber(source.totalLeads)}</td>
+                    <td className="text-right py-3 px-4 text-white">{formatNumber(source.qualifiedLeads)}</td>
+                    <td className="text-right py-3 px-4 text-green-400 font-medium">{source.qualificationRate}</td>
+                    <td className="text-right py-3 px-4 text-blue-400 font-medium">{source.averageScore}</td>
                   </tr>
                 ))}
               </tbody>

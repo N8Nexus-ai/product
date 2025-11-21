@@ -86,14 +86,14 @@ export default function LeadsPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 min-h-screen bg-[#0D0D0D]">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Leads</h1>
-        <p className="text-gray-600 mt-2">Gerencie todos os seus leads</p>
+        <h1 className="text-3xl font-bold text-white">Leads</h1>
+        <p className="text-gray-400 mt-2">Gerencie todos os seus leads</p>
       </div>
 
       {/* Filters */}
-      <Card className="mb-6">
+      <Card className="mb-6 bg-[#1A1A1A] border-white/10">
         <CardContent className="pt-6">
           <div className="flex flex-col md:flex-row gap-4">
             <form onSubmit={handleSearch} className="flex-1 flex gap-2">
@@ -104,7 +104,7 @@ export default function LeadsPage() {
                   placeholder="Buscar por nome, email ou telefone..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full pl-10 pr-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
                 />
               </div>
               <Button type="submit">
@@ -120,7 +120,7 @@ export default function LeadsPage() {
                   setStatusFilter(e.target.value)
                   setPage(1)
                 }}
-                className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                className="px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
               >
                 <option value="">Todos os Status</option>
                 <option value="NEW">Novo</option>
@@ -139,34 +139,34 @@ export default function LeadsPage() {
       </Card>
 
       {/* Leads Table */}
-      <Card>
+      <Card className="bg-[#1A1A1A] border-white/10">
         <CardContent className="pt-6">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b">
-                  <th className="text-left py-3 px-4 font-medium">Lead</th>
-                  <th className="text-left py-3 px-4 font-medium">Contato</th>
-                  <th className="text-left py-3 px-4 font-medium">Fonte</th>
-                  <th className="text-center py-3 px-4 font-medium">Score</th>
-                  <th className="text-center py-3 px-4 font-medium">Status</th>
-                  <th className="text-left py-3 px-4 font-medium">Data</th>
-                  <th className="text-right py-3 px-4 font-medium">Ações</th>
+                <tr className="border-b border-white/10">
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Lead</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Contato</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Fonte</th>
+                  <th className="text-center py-3 px-4 font-medium text-gray-300">Score</th>
+                  <th className="text-center py-3 px-4 font-medium text-gray-300">Status</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-300">Data</th>
+                  <th className="text-right py-3 px-4 font-medium text-gray-300">Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {leadsData.map((lead: any) => (
-                  <tr key={lead.id} className="border-b hover:bg-gray-50">
+                  <tr key={lead.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="py-3 px-4">
-                      <div className="font-medium">{lead.name || 'Sem nome'}</div>
+                      <div className="font-medium text-white">{lead.name || 'Sem nome'}</div>
                     </td>
                     <td className="py-3 px-4">
                       <div className="text-sm">
-                        {lead.email && <div>{lead.email}</div>}
-                        {lead.phone && <div className="text-gray-600">{lead.phone}</div>}
+                        {lead.email && <div className="text-gray-300">{lead.email}</div>}
+                        {lead.phone && <div className="text-gray-500">{lead.phone}</div>}
                       </div>
                     </td>
-                    <td className="py-3 px-4 capitalize">{lead.source}</td>
+                    <td className="py-3 px-4 capitalize text-gray-300">{lead.source}</td>
                     <td className="text-center py-3 px-4">
                       {lead.score ? (
                         <span className={`font-bold ${getScoreColor(lead.score)}`}>
@@ -181,7 +181,7 @@ export default function LeadsPage() {
                         {getLeadStatusLabel(lead.status)}
                       </Badge>
                     </td>
-                    <td className="py-3 px-4 text-sm text-gray-600">
+                    <td className="py-3 px-4 text-sm text-gray-400">
                       {formatDateTime(lead.createdAt)}
                     </td>
                     <td className="py-3 px-4">
