@@ -1,0 +1,283 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USERS & AUTHENTICATION
+// ============================================
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(CLIENT)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+  USER
+}
+
+// ============================================
+// COMPANIES (Clients)
+// ============================================
+
+model Company {
+  id          String   @id @default(uuid())
+  name        String
+  cnpj        String?  @unique
+  industry    String?
+  active      Boolean  @default(true)
+  setupStatus String   @default("pending") // pending, in_progress, completed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Configuration
+  config Json? // Store custom configuration
+
+  // Relations
+  users        User[]
+  leads        Lead[]
+  integrations Integration[]
+  campaigns    Campaign[]
+
+  @@map("companies")
+}
+
+// ============================================
+// LEADS
+// ============================================
+
+model Lead {
+  id        String     @id @default(uuid())
+  status    LeadStatus @default(NEW)
+  source    String // facebook, google, linkedin, typeform, etc.
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Basic Info (Raw Data)
+  name         String?
+  email        String?
+  phone        String?
+  message      String?
+  customFields Json? // Store any additional fields
+
+  // Enriched Data
+  enrichedData  Json? // Enriched information
+  enrichedAt    DateTime?
+  enrichmentLog Json? // Log of enrichment process
+
+  // AI Scoring
+  score         Int? // 0-100
+  scoringReason String? // AI explanation
+  scoredAt      DateTime?
+  scoringLog    Json? // Log of scoring process
+
+  // CRM Integration
+  sentToCrm   Boolean   @default(false)
+  crmId       String? // ID in the CRM system
+  crmStatus   String? // Status in CRM
+  sentToCrmAt DateTime?
+
+  // Relations
+  company    Company  @relation(fields: [companyId], references: [id])
+  companyId  String
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+  campaignId String?
+
+  activities LeadActivity[]
+  tags       LeadTag[]
+
+  @@index([companyId])
+  @@index([status])
+  @@index([source])
+  @@index([email])
+  @@map("leads")
+}
+
+enum LeadStatus {
+  NEW // Just arrived
+  ENRICHING // Being enriched
+  ENRICHED // Enrichment complete
+  SCORING // Being scored
+  QUALIFIED // Score > threshold
+  UNQUALIFIED // Score < threshold
+  SENT_TO_CRM // Sent to CRM
+  CONVERTED // Converted to customer
+  LOST // Lost/Rejected
+}
+
+// ============================================
+// LEAD ACTIVITIES (Timeline)
+// ============================================
+
+model LeadActivity {
+  id          String   @id @default(uuid())
+  type        String // enrichment, scoring, crm_sync, status_change, etc.
+  description String?
+  data        Json? // Additional data
+  createdAt   DateTime @default(now())
+
+  // Relations
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId String
+
+  @@index([leadId])
+  @@map("lead_activities")
+}
+
+// ============================================
+// LEAD TAGS
+// ============================================
+
+model LeadTag {
+  id        String   @id @default(uuid())
+  name      String
+  color     String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  leads Lead[]
+
+  @@map("lead_tags")
+}
+
+// ============================================
+// CAMPAIGNS (Ad Campaigns)
+// ============================================
+
+model Campaign {
+  id          String   @id @default(uuid())
+  name        String
+  source      String // facebook, google, linkedin
+  externalId  String? // Campaign ID in the ad platform
+  status      String   @default("active") // active, paused, completed
+  budget      Float?
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Metrics
+  impressions Int @default(0)
+  clicks      Int @default(0)
+  conversions Int @default(0)
+  spend       Float @default(0)
+
+  // Relations
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+  leads     Lead[]
+
+  @@index([companyId])
+  @@map("campaigns")
+}
+
+// ============================================
+// INTEGRATIONS
+// ============================================
+
+model Integration {
+  id        String           @id @default(uuid())
+  type      IntegrationType
+  name      String
+  active    Boolean          @default(true)
+  config    Json // Store credentials and configuration securely
+  lastSync  DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  // Relations
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+
+  @@index([companyId])
+  @@index([type])
+  @@map("integrations")
+}
+
+enum IntegrationType {
+  CRM_PIPEDRIVE
+  CRM_RD_STATION
+  CRM_HUBSPOT
+  CRM_SALESFORCE
+  ADS_FACEBOOK
+  ADS_GOOGLE
+  ADS_LINKEDIN
+  FORM_TYPEFORM
+  MESSAGING_WHATSAPP
+  EMAIL_SENDGRID
+  STORAGE_AWS_S3
+  OTHER
+}
+
+// ============================================
+// ANALYTICS & METRICS
+// ============================================
+
+model DailyMetric {
+  id        String   @id @default(uuid())
+  date      DateTime @db.Date
+  createdAt DateTime @default(now())
+
+  // Lead Metrics
+  leadsReceived    Int @default(0)
+  leadsEnriched    Int @default(0)
+  leadsQualified   Int @default(0)
+  leadsUnqualified Int @default(0)
+  leadsSentToCrm   Int @default(0)
+  leadsConverted   Int @default(0)
+
+  // Quality Metrics
+  averageScore Float?
+
+  // Cost Metrics (if available)
+  adSpend       Float?
+  costPerLead   Float?
+  costPerQualifiedLead Float?
+
+  // Relations
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+
+  @@unique([companyId, date])
+  @@index([companyId])
+  @@index([date])
+  @@map("daily_metrics")
+}
+
+// ============================================
+// SYSTEM LOGS
+// ============================================
+
+model SystemLog {
+  id        String   @id @default(uuid())
+  level     String // info, warn, error
+  message   String
+  context   Json? // Additional context
+  createdAt DateTime @default(now())
+
+  @@index([level])
+  @@index([createdAt])
+  @@map("system_logs")
+}
+

@@ -1,0 +1,46 @@
+{
+  "name": "nexus-sales-os",
+  "version": "1.0.0",
+  "description": "Sistema Operacional de Vendas - A máquina que transforma tráfego em vendas qualificadas",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "dashboard"
+  ],
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../dashboard && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:dashboard\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:dashboard": "cd dashboard && npm run dev",
+    "build": "npm run build:backend && npm run build:dashboard",
+    "build:backend": "cd backend && npm run build",
+    "build:dashboard": "cd dashboard && npm run build",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:dashboard\"",
+    "start:backend": "cd backend && npm start",
+    "start:dashboard": "cd dashboard && npm start",
+    "lint": "npm run lint:backend && npm run lint:dashboard",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:dashboard": "cd dashboard && npm run lint",
+    "test": "npm run test:backend && npm run test:dashboard",
+    "test:backend": "cd backend && npm test",
+    "test:dashboard": "cd dashboard && npm test"
+  },
+  "keywords": [
+    "sales",
+    "automation",
+    "lead-generation",
+    "crm",
+    "ai",
+    "n8n"
+  ],
+  "author": "Nexus.ai",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
+
