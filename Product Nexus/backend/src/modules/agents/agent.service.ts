@@ -243,16 +243,18 @@ export class AgentService {
 
   async chatWithAgent(message: string, conversation: Array<{ role: string; content: string }> = []) {
     try {
-      // Buscar o agente assistente padrão ativo
-      const agent = await prisma.agent.findFirst({
+      // Buscar o agente assistente padrão ativo (buscar todos e filtrar depois)
+      const agents = await prisma.agent.findMany({
         where: {
-          status: AgentStatus.ACTIVE,
-          config: {
-            path: ['provider'],
-            equals: 'gemini'
-          }
+          status: AgentStatus.ACTIVE
         },
         orderBy: { createdAt: 'desc' }
+      });
+
+      // Encontrar agente com provider gemini
+      const agent = agents.find((a: any) => {
+        const config = a.config as any;
+        return config?.provider === 'gemini';
       });
 
       if (!agent) {

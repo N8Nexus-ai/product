@@ -1,5 +1,6 @@
 import { Sidebar } from '@/components/sidebar'
 import { AnimatedBackground } from '@/components/animated-background'
+import { FloatingChat } from '@/components/floating-chat'
 
 export default function DashboardLayout({
   children,
@@ -15,6 +16,7 @@ export default function DashboardLayout({
       <main className="flex-1 overflow-y-auto relative" style={{ zIndex: 10 }}>
         {children}
       </main>
+      <FloatingChat />
     </div>
   )
 }
