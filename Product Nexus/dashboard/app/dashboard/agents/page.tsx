@@ -120,7 +120,7 @@ export default function AgentsPage() {
       </div>
 
       {/* Filters */}
-      <Card className="mb-6 bg-[#1A1A1A] border-white/10">
+      <Card className="mb-6 bg-[#1A1A1A] border-0">
         <CardContent className="pt-6">
           <div className="flex flex-col md:flex-row gap-4">
             <form onSubmit={handleSearch} className="flex-1 flex gap-2">
@@ -131,7 +131,7 @@ export default function AgentsPage() {
                   placeholder="Buscar por nome ou descrição..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-[#0D0D0D] border border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
+                  className="w-full pl-10 pr-4 py-2 bg-[#0D0D0D] border border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
                 />
               </div>
               <Button type="submit">
@@ -147,7 +147,7 @@ export default function AgentsPage() {
                   setStatusFilter(e.target.value)
                   setPage(1)
                 }}
-                className="px-4 py-2 bg-[#0D0D0D] border border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-white"
+                className="px-4 py-2 bg-[#0D0D0D] border border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-white"
               >
                 <option value="">Todos os Status</option>
                 <option value="ACTIVE">Ativo</option>
@@ -166,7 +166,7 @@ export default function AgentsPage() {
 
       {/* Agents Grid */}
       {agentsData.length === 0 ? (
-        <Card className="bg-[#1A1A1A] border-white/10">
+        <Card className="bg-[#1A1A1A] border-0">
           <CardContent className="pt-12 pb-12 text-center">
             <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">Nenhum agente encontrado</h3>
@@ -182,7 +182,7 @@ export default function AgentsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {agentsData.map((agent: any) => (
-            <Card key={agent.id} className="bg-[#1A1A1A] border-white/10 hover:border-white/20 hover:shadow-lg transition-all">
+            <Card key={agent.id} className="bg-[#1A1A1A] border-0 hover:border-0 hover:shadow-lg transition-all">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
@@ -313,7 +313,7 @@ export default function AgentsPage() {
       {/* Create Modal (Simple version - can be enhanced later) */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-full max-w-md bg-[#1A1A1A] border-white/10">
+          <Card className="w-full max-w-md bg-[#1A1A1A] border-0">
             <CardHeader>
               <CardTitle className="text-white">Criar Novo Agente</CardTitle>
             </CardHeader>

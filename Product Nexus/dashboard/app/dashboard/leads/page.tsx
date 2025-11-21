@@ -106,7 +106,7 @@ export default function LeadsPage() {
                   placeholder="Buscar por nome, email ou telefone..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
+                  className="w-full pl-10 pr-4 py-3 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-gray-500"
                 />
               </div>
               <Button type="submit">
@@ -122,7 +122,7 @@ export default function LeadsPage() {
                   setStatusFilter(e.target.value)
                   setPage(1)
                 }}
-                className="px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
+                className="px-4 py-3 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
               >
                 <option value="">Todos os Status</option>
                 <option value="NEW">Novo</option>
@@ -146,7 +146,7 @@ export default function LeadsPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/10">
+                <tr className="border-b border-0">
                   <th className="text-left py-3 px-4 font-medium text-gray-300">Lead</th>
                   <th className="text-left py-3 px-4 font-medium text-gray-300">Contato</th>
                   <th className="text-left py-3 px-4 font-medium text-gray-300">Fonte</th>
@@ -158,7 +158,7 @@ export default function LeadsPage() {
               </thead>
               <tbody>
                 {leadsData.map((lead: any) => (
-                  <tr key={lead.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                  <tr key={lead.id} className="border-b border-0 hover:bg-white/5 transition-colors">
                     <td className="py-3 px-4">
                       <div className="font-medium text-white">{lead.name || 'Sem nome'}</div>
                     </td>

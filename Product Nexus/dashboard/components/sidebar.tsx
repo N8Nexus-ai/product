@@ -32,17 +32,18 @@ export function Sidebar() {
   }
 
   return (
-    <div className="flex flex-col w-64 bg-[#0D0D0D] text-white border-r border-white/10">
-      <div className="flex items-center justify-center h-16 border-b border-white/10 px-4">
+    <div className="flex flex-col w-64 bg-[#0D0D0D] text-white border-r border-white/5">
+      <div className="flex items-center justify-center h-16 border-b border-white/5 px-4">
         {/* Logo Nexus */}
-        <div className="flex items-center">
+        <div className="flex items-center justify-center w-full">
           <Image 
             src="/logo-dark.png" 
             alt="Nexus Sales OS" 
-            width={140} 
-            height={45}
-            className="object-contain"
+            width={120} 
+            height={38}
+            className="object-contain h-auto"
             priority
+            style={{ maxHeight: '38px' }}
           />
         </div>
       </div>
@@ -68,7 +69,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/10">
+      <div className="p-4 border-t border-white/5">
         <button
           onClick={handleLogout}
           className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition-all duration-200"

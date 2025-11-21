@@ -139,20 +139,20 @@ export default function DashboardPage() {
 
   return (
     <div className="p-8 min-h-screen bg-transparent">
-      <div className="mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
-        <div className="flex-1">
+      <div className="mb-8 flex justify-between items-start">
+        <div>
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-400 mt-2 text-sm sm:text-base">Visão geral do seu funil de vendas</p>
+          <p className="text-gray-400 mt-2">Visão geral do seu funil de vendas</p>
         </div>
         
         {/* Seletor de Período */}
-        <div className="relative flex-shrink-0">
+        <div className="relative">
           <div className="flex items-center gap-2">
             <Calendar className="w-5 h-5 text-gray-400" />
             <select
               value={period}
               onChange={(e) => handlePeriodChange(e.target.value as '7d' | '30d' | '90d' | 'custom')}
-              className="px-4 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm appearance-none cursor-pointer pr-8 min-w-[180px]"
+              className="px-4 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm appearance-none cursor-pointer pr-8"
             >
               <option value="7d">Últimos 7 dias</option>
               <option value="30d">Últimos 30 dias</option>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
           
           {/* Seletor de Data Customizado */}
           {period === 'custom' && (
-            <Card className="absolute right-0 mt-2 bg-[#1A1A1A] border border-white/10 shadow-xl z-10 w-64">
+            <Card className="absolute right-0 mt-2 bg-[#1A1A1A] border border-0 shadow-xl z-10 w-64">
               <CardContent className="p-4">
                 <div className="flex flex-col gap-3">
                   <div>
@@ -174,7 +174,7 @@ export default function DashboardPage() {
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
                       max={endDate || undefined}
-                      className="w-full px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
+                      className="w-full px-3 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
                     />
                   </div>
                   <div>
@@ -185,7 +185,7 @@ export default function DashboardPage() {
                       onChange={(e) => setEndDate(e.target.value)}
                       min={startDate || undefined}
                       max={new Date().toISOString().split('T')[0]}
-                      className="w-full px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
+                      className="w-full px-3 py-2 bg-[#0D0D0D] border border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white text-sm"
                     />
                   </div>
                 </div>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-300">Leads Qualificados</CardTitle>
               <div className="group relative">
                 <Bot className="h-4 w-4 text-purple-400 cursor-help" />
-                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none border border-white/10 shadow-lg z-50">
+                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none border border-0 shadow-lg z-50">
                   Avaliado com Inteligência Artificial (Gemini)
                   <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-[#1a1a1a]"></div>
                 </div>
@@ -315,7 +315,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/10">
+                <tr className="border-b border-0">
                   <th className="text-left py-3 px-4 font-medium text-gray-300">Fonte</th>
                   <th className="text-right py-3 px-4 font-medium text-gray-300">Total</th>
                   <th className="text-right py-3 px-4 font-medium text-gray-300">Qualificados</th>
@@ -325,7 +325,7 @@ export default function DashboardPage() {
               </thead>
               <tbody>
                 {sources.map((source: any, index: number) => (
-                  <tr key={index} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                  <tr key={index} className="border-b border-0 hover:bg-white/5 transition-colors">
                     <td className="py-3 px-4 capitalize text-white">{source.source}</td>
                     <td className="text-right py-3 px-4 text-white">{formatNumber(source.totalLeads)}</td>
                     <td className="text-right py-3 px-4 text-white">{formatNumber(source.qualifiedLeads)}</td>

@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
 
       {/* ROI Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-0 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Investimento Total</CardTitle>
           </CardHeader>
@@ -85,7 +85,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-0 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Custo por Lead</CardTitle>
           </CardHeader>
@@ -97,7 +97,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-0 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Custo por Qualificado</CardTitle>
           </CardHeader>
@@ -109,7 +109,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-0 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">ROI</CardTitle>
           </CardHeader>
@@ -215,7 +215,7 @@ export default function AnalyticsPage() {
               </thead>
               <tbody>
                 {(roi?.campaigns || []).map((campaign: any, index: number) => (
-                  <tr key={index} className="border-b border-white/5 hover:bg-white/5">
+                  <tr key={index} className="border-b border-0 hover:bg-white/5">
                     <td className="py-3 px-4 text-white">{campaign.name}</td>
                     <td className="py-3 px-4 capitalize text-white">{campaign.source}</td>
                     <td className="text-right py-3 px-4 text-white">
