@@ -116,7 +116,7 @@ export function FloatingChat() {
       {!isOpen && (
         <button
           onClick={handleToggle}
-          className="fixed bottom-8 right-8 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 group"
+          className="fixed bottom-16 right-16 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 group"
           aria-label="Abrir chat com agente"
         >
           <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
@@ -127,7 +127,7 @@ export function FloatingChat() {
       {/* Janela de Chat */}
       {isOpen && (
         <div
-          className={`fixed bottom-8 right-8 w-96 bg-[#1a1a1a] border border-white/10 rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ${
+          className={`fixed bottom-16 right-16 w-96 bg-[#1a1a1a] border border-white/10 rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ${
             isMinimized ? 'h-14' : 'h-[600px]'
           }`}
         >

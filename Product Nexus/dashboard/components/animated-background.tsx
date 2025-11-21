@@ -56,7 +56,7 @@ export function AnimatedBackground() {
       draw() {
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(96, 165, 250, 0.5)'
+        ctx.fillStyle = 'rgba(96, 165, 250, 0.8)' // Mais visível
         ctx.fill()
       }
     }
@@ -69,9 +69,7 @@ export function AnimatedBackground() {
 
     // Animar
     function animate() {
-      // Limpar canvas
-      ctx.clearRect(0, 0, width, height)
-      // Fundo escuro
+      // Limpar canvas com fundo escuro
       ctx.fillStyle = '#0D0D0D'
       ctx.fillRect(0, 0, width, height)
 
@@ -90,8 +88,9 @@ export function AnimatedBackground() {
 
           if (distance < 120) {
             ctx.beginPath()
-            ctx.strokeStyle = `rgba(96, 165, 250, ${0.2 * (1 - distance / 120)})`
-            ctx.lineWidth = 0.5
+            const opacity = 0.4 * (1 - distance / 120) // Mais visível
+            ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`
+            ctx.lineWidth = 1
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
             ctx.stroke()
@@ -125,7 +124,7 @@ export function AnimatedBackground() {
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: 0,
+        zIndex: 1,
         pointerEvents: 'none',
         background: '#0D0D0D'
       }}
@@ -135,7 +134,8 @@ export function AnimatedBackground() {
         style={{ 
           display: 'block',
           width: '100%',
-          height: '100%'
+          height: '100%',
+          opacity: 1
         }}
       />
     </div>
