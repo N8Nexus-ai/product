@@ -12,7 +12,9 @@ import {
   Send,
   Target,
   Activity,
-  DollarSign
+  DollarSign,
+  Bot,
+  Sparkles
 } from 'lucide-react'
 import {
   BarChart,
@@ -98,13 +100,23 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-0 hover:bg-[#1F1F1F] transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:bg-[#1F1F1F] transition-all relative overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Leads Qualificados</CardTitle>
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-gray-300">Leads Qualificados</CardTitle>
+              <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-2 py-0.5 flex items-center gap-1">
+                <Bot className="w-3 h-3" />
+                <span>IA</span>
+              </Badge>
+            </div>
             <CheckCircle2 className="h-5 w-5 text-green-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-white">{formatNumber(overview.qualifiedLeads || 0)}</div>
+            <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-purple-400" />
+              Avaliado com Inteligência Artificial (Gemini)
+            </p>
             <p className="text-xs text-gray-500 mt-1">
               Taxa de qualificação: <span className="text-green-400 font-medium">{overview.qualificationRate}</span>
             </p>

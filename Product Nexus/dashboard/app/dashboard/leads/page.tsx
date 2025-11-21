@@ -16,7 +16,9 @@ import {
   Filter,
   RefreshCw,
   Eye,
-  Send
+  Send,
+  Bot,
+  Sparkles
 } from 'lucide-react'
 
 export default function LeadsPage() {
@@ -169,17 +171,31 @@ export default function LeadsPage() {
                     <td className="py-3 px-4 capitalize text-gray-300">{lead.source}</td>
                     <td className="text-center py-3 px-4">
                       {lead.score ? (
-                        <span className={`font-bold ${getScoreColor(lead.score)}`}>
-                          {lead.score}
-                        </span>
+                        <div className="flex items-center justify-center gap-2">
+                          <span className={`font-bold ${getScoreColor(lead.score)}`}>
+                            {lead.score}
+                          </span>
+                          <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-2 py-0.5 flex items-center gap-1">
+                            <Bot className="w-3 h-3" />
+                            <span>IA</span>
+                          </Badge>
+                        </div>
                       ) : (
                         <span className="text-gray-400">-</span>
                       )}
                     </td>
                     <td className="text-center py-3 px-4">
-                      <Badge className={getLeadStatusColor(lead.status)}>
-                        {getLeadStatusLabel(lead.status)}
-                      </Badge>
+                      <div className="flex flex-col items-center gap-1">
+                        <Badge className={getLeadStatusColor(lead.status)}>
+                          {getLeadStatusLabel(lead.status)}
+                        </Badge>
+                        {lead.status === 'QUALIFIED' && lead.score && (
+                          <span className="text-xs text-gray-400 flex items-center gap-1">
+                            <Sparkles className="w-3 h-3 text-purple-400" />
+                            Avaliado com IA
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="py-3 px-4 text-sm text-gray-400">
                       {formatDateTime(lead.createdAt)}
