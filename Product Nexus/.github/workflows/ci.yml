@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: nexus_sales_os_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+      
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nexus_sales_os_test
+      
+      - name: Run migrations
+        working-directory: ./backend
+        run: npm run migrate:deploy
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nexus_sales_os_test
+      
+      - name: Lint
+        working-directory: ./backend
+        run: npm run lint
+        continue-on-error: true
+      
+      - name: Type check
+        working-directory: ./backend
+        run: npx tsc --noEmit
+
+  dashboard:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: dashboard/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./dashboard
+        run: npm ci
+      
+      - name: Lint
+        working-directory: ./dashboard
+        run: npm run lint
+        continue-on-error: true
+      
+      - name: Type check
+        working-directory: ./dashboard
+        run: npm run type-check
+        continue-on-error: true
+      
+      - name: Build
+        working-directory: ./dashboard
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3001
+
