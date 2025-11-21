@@ -114,41 +114,45 @@ export function FloatingChat() {
     <>
       {/* Botão Flutuante */}
       {!isOpen && (
-        <button
-          onClick={handleToggle}
-          className="fixed bottom-16 right-16 w-16 h-16 bg-gradient-to-br from-primary via-purple-600 to-blue-600 hover:from-primary hover:via-purple-500 hover:to-blue-500 text-white rounded-full shadow-2xl hover:shadow-primary/50 transition-all duration-300 flex items-center justify-center z-50 group relative overflow-hidden"
-          aria-label="Abrir chat com agente"
-        >
-          {/* Efeito de brilho animado */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          
-          {/* Ícone do robô */}
-          <Bot className="w-8 h-8 relative z-10 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
-          
-          {/* Partículas brilhantes ao redor */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <Sparkles className="w-4 h-4 text-yellow-300 absolute -top-1 -left-1 animate-pulse opacity-75" />
-            <Sparkles className="w-3 h-3 text-blue-300 absolute -bottom-1 -right-1 animate-pulse opacity-75 delay-150" />
-            <Sparkles className="w-2 h-2 text-purple-300 absolute top-2 -right-2 animate-pulse opacity-75 delay-300" />
-          </div>
-          
-          {/* Indicador de online com animação */}
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-3 border-[#0D0D0D] z-20 animate-pulse">
-            <span className="absolute inset-0 bg-green-400 rounded-full animate-ping opacity-75"></span>
-          </span>
+        <div className="fixed bottom-16 right-16 z-[100] group">
+          <button
+            onClick={handleToggle}
+            className="w-16 h-16 bg-gradient-to-br from-primary via-purple-600 to-blue-600 hover:from-primary hover:via-purple-500 hover:to-blue-500 text-white rounded-full shadow-2xl hover:shadow-primary/50 transition-all duration-300 flex items-center justify-center relative overflow-hidden"
+            aria-label="Abrir chat com agente"
+            style={{ 
+              boxShadow: '0 10px 40px rgba(139, 92, 246, 0.4)',
+            }}
+          >
+            {/* Efeito de brilho animado */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            
+            {/* Ícone do robô */}
+            <Bot className="w-8 h-8 relative z-10 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
+            
+            {/* Partículas brilhantes ao redor */}
+            <Sparkles className="w-4 h-4 text-yellow-300 absolute -top-1 -left-1 animate-pulse opacity-75 pointer-events-none" />
+            <Sparkles className="w-3 h-3 text-blue-300 absolute -bottom-1 -right-1 animate-pulse opacity-75 pointer-events-none" style={{ animationDelay: '0.2s' }} />
+            <Sparkles className="w-2 h-2 text-purple-300 absolute top-2 -right-2 animate-pulse opacity-75 pointer-events-none" style={{ animationDelay: '0.4s' }} />
+            
+            {/* Indicador de online - "luz" na cabeça do robô */}
+            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-green-500 rounded-full border-2 border-[#0D0D0D] z-20">
+              <span className="absolute inset-0 bg-green-400 rounded-full animate-ping opacity-75"></span>
+              <span className="absolute inset-0 bg-green-400 rounded-full animate-pulse"></span>
+            </span>
+          </button>
           
           {/* Tooltip */}
-          <div className="absolute right-full mr-4 px-3 py-2 bg-[#1a1a1a] text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none border border-white/10 shadow-lg">
+          <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none border border-white/10 shadow-lg">
             Assistente IA
             <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-[#1a1a1a]"></div>
           </div>
-        </button>
+        </div>
       )}
 
       {/* Janela de Chat */}
       {isOpen && (
         <div
-          className={`fixed bottom-16 right-16 w-96 bg-[#1a1a1a] border border-white/10 rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ${
+          className={`fixed bottom-16 right-16 w-96 bg-[#1a1a1a] border border-white/10 rounded-lg shadow-2xl flex flex-col z-[100] transition-all duration-300 ${
             isMinimized ? 'h-14' : 'h-[600px]'
           }`}
         >
