@@ -7,16 +7,27 @@ export function AnimatedBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas) {
+      console.error('Canvas ref is null')
+      return
+    }
 
     const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    if (!ctx) {
+      console.error('Could not get 2d context')
+      return
+    }
 
     let width = window.innerWidth
     let height = window.innerHeight
 
+    // Forçar tamanho
     canvas.width = width
     canvas.height = height
+    canvas.style.width = width + 'px'
+    canvas.style.height = height + 'px'
+    
+    console.log('Canvas initialized:', width, height)
 
     // Partículas
     class Particle {
@@ -58,8 +69,10 @@ export function AnimatedBackground() {
 
     // Animar
     function animate() {
-      // Fundo escuro semi-transparente para efeito de trail
-      ctx.fillStyle = 'rgba(13, 13, 13, 0.05)'
+      // Limpar canvas
+      ctx.clearRect(0, 0, width, height)
+      // Fundo escuro
+      ctx.fillStyle = '#0D0D0D'
       ctx.fillRect(0, 0, width, height)
 
       // Atualizar e desenhar partículas
@@ -89,6 +102,7 @@ export function AnimatedBackground() {
       requestAnimationFrame(animate)
     }
 
+    console.log('Starting animation with', particles.length, 'particles')
     animate()
 
     // Handle resize
@@ -104,18 +118,26 @@ export function AnimatedBackground() {
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none"
+    <div 
       style={{ 
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
+        width: '100vw',
+        height: '100vh',
         zIndex: 0,
+        pointerEvents: 'none',
         background: '#0D0D0D'
       }}
-    />
+    >
+      <canvas
+        ref={canvasRef}
+        style={{ 
+          display: 'block',
+          width: '100%',
+          height: '100%'
+        }}
+      />
+    </div>
   )
 }
