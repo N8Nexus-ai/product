@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
 
       {/* ROI Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Investimento Total</CardTitle>
           </CardHeader>
@@ -85,7 +85,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Custo por Lead</CardTitle>
           </CardHeader>
@@ -97,7 +97,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Custo por Qualificado</CardTitle>
           </CardHeader>
@@ -109,7 +109,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1A1A] border-white/10 hover:border-white/20 transition-all">
+        <Card className="bg-[#1A1A1A] border-0 hover:border-white/20 transition-all">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">ROI</CardTitle>
           </CardHeader>
@@ -124,7 +124,7 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Score Distribution */}
-        <Card className="bg-[#1A1A1A] border-white/10">
+        <Card className="bg-[#1A1A1A] border-0">
           <CardHeader>
             <CardTitle className="text-white">Distribuição de Score</CardTitle>
             <CardDescription className="text-gray-400">Qualidade dos leads por faixa de pontuação</CardDescription>
@@ -153,7 +153,7 @@ export default function AnalyticsPage() {
         </Card>
 
         {/* Sources Comparison */}
-        <Card className="bg-[#1A1A1A] border-white/10">
+        <Card className="bg-[#1A1A1A] border-0">
           <CardHeader>
             <CardTitle className="text-white">Comparação de Fontes</CardTitle>
             <CardDescription className="text-gray-400">Volume de leads por origem</CardDescription>
@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Timeline */}
-      <Card className="mb-8 bg-[#1A1A1A] border-white/10">
+      <Card className="mb-8 bg-[#1A1A1A] border-0">
         <CardHeader>
           <CardTitle className="text-white">Evolução Semanal</CardTitle>
           <CardDescription className="text-gray-400">Tendência de leads ao longo do tempo</CardDescription>
@@ -196,7 +196,7 @@ export default function AnalyticsPage() {
       </Card>
 
       {/* Campaign Performance */}
-      <Card className="bg-[#1A1A1A] border-white/10">
+      <Card className="bg-[#1A1A1A] border-0">
         <CardHeader>
           <CardTitle className="text-white">Performance de Campanhas</CardTitle>
           <CardDescription className="text-gray-400">Detalhamento por campanha</CardDescription>
@@ -205,7 +205,7 @@ export default function AnalyticsPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/10">
+                <tr className="border-b border-0">
                   <th className="text-left py-3 px-4 font-medium text-gray-300">Campanha</th>
                   <th className="text-left py-3 px-4 font-medium text-gray-300">Fonte</th>
                   <th className="text-right py-3 px-4 font-medium text-gray-300">Investimento</th>
