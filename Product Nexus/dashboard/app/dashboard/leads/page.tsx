@@ -175,10 +175,7 @@ export default function LeadsPage() {
                           <span className={`font-bold ${getScoreColor(lead.score)}`}>
                             {lead.score}
                           </span>
-                          <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-2 py-0.5 flex items-center gap-1">
-                            <Bot className="w-3 h-3" />
-                            <span>IA</span>
-                          </Badge>
+                          <Bot className="w-4 h-4 text-purple-400" />
                         </div>
                       ) : (
                         <span className="text-gray-400">-</span>

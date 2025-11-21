@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Bot, X, Send, Minimize2, MessageCircle, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { api } from '@/lib/api'
 
 interface Message {
@@ -159,10 +160,16 @@ export function FloatingChat() {
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#0D0D0D] rounded-t-lg">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <Bot className="w-5 h-5 text-white" />
+              <div className="group relative">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary to-blue-600 rounded-full flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none border border-white/10 shadow-lg z-50">
+                  Assistente com Inteligência Artificial da Nexus
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-[#1a1a1a]"></div>
+                </div>
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="text-white font-semibold text-sm">Assistente IA</h3>
                 <p className="text-gray-400 text-xs">Online</p>
               </div>
