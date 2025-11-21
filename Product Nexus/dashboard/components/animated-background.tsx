@@ -110,6 +110,14 @@ export function AnimatedBackground() {
       height = window.innerHeight
       canvas.width = width
       canvas.height = height
+      canvas.style.width = width + 'px'
+      canvas.style.height = height + 'px'
+      
+      // Redistribuir partículas se necessário
+      particles.forEach(particle => {
+        if (particle.x > width) particle.x = width
+        if (particle.y > height) particle.y = height
+      })
     }
 
     window.addEventListener('resize', handleResize)
@@ -118,24 +126,32 @@ export function AnimatedBackground() {
 
   return (
     <div 
+      className="fixed inset-0 pointer-events-none"
       style={{ 
         position: 'fixed',
         top: 0,
         left: 0,
+        right: 0,
+        bottom: 0,
         width: '100vw',
         height: '100vh',
         zIndex: 1,
-        pointerEvents: 'none',
-        background: '#0D0D0D'
+        background: '#0D0D0D',
+        margin: 0,
+        padding: 0
       }}
     >
       <canvas
         ref={canvasRef}
         style={{ 
+          position: 'absolute',
+          top: 0,
+          left: 0,
           display: 'block',
-          width: '100%',
-          height: '100%',
-          opacity: 1
+          width: '100vw',
+          height: '100vh',
+          margin: 0,
+          padding: 0
         }}
       />
     </div>
