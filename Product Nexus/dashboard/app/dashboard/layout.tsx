@@ -9,7 +9,9 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen overflow-hidden bg-[#0D0D0D] relative">
       <AnimatedBackground />
-      <Sidebar />
+      <div className="relative z-20">
+        <Sidebar />
+      </div>
       <main className="flex-1 overflow-y-auto relative z-10">
         {children}
       </main>
