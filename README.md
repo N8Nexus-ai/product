@@ -1,69 +1,72 @@
 # Nexus Sales OS
 
-> Sistema Operacional de Vendas: A máquina que transforma tráfego em vendas qualificadas
+> Plataforma Completa de Automação e Agentes Inteligentes
 
 ## 🎯 O Que É?
 
-**Nexus Sales OS** é uma infraestrutura de inteligência comercial pré-moldada que automatiza todo o processo de captura, qualificação e distribuição de leads.
+**Nexus Sales OS** é uma infraestrutura completa de automação e agentes inteligentes que permite criar, gerenciar e orquestrar processos automatizados em escala empresarial.
 
 ### O Problema Que Resolvemos
 
-Empresas que investem em tráfego pago (Facebook Ads, Google Ads) perdem 40% do tempo do time comercial com:
-- Leads desqualificados
-- Preenchimento manual de CRM
-- Pesquisa manual de informações (CNPJ, cargo, faturamento)
-- Leads perdidos por falta de organização
+Empresas perdem tempo e recursos com processos manuais e repetitivos:
+- Processamento manual de dados e informações
+- Integrações desconectadas entre sistemas
+- Falta de automação inteligente para decisões
+- Processos que precisam de escala mas dependem de pessoas
+- Dificuldade em criar e manter agentes autônomos
 
 ### A Solução
 
-Uma "Máquina de Vendas Autônoma" que:
-1. **Captura** leads de múltiplas fontes (Facebook, Google, LinkedIn, etc.)
-2. **Enriquece** dados automaticamente (CNPJ, faturamento, cargo, etc.)
-3. **Qualifica** com IA (lead scoring baseado em perfil ideal)
-4. **Distribui** para o CRM e time comercial (apenas leads quentes)
+Uma **Plataforma de Automação Completa** com:
+1. **Agentes Inteligentes** configuráveis para tarefas específicas
+2. **Automação de Processos** end-to-end
+3. **Integrações Nativas** com CRMs, APIs e sistemas externos
+4. **IA Integrada** para análise, decisões e qualificação
+5. **Infraestrutura Escalável** pronta para produção
 
 ## 🏗️ Arquitetura
 
 ```
-┌─────────────────┐
-│  TRÁFEGO PAGO   │
-│ (Ads, Landing)  │
-└────────┬────────┘
+┌─────────────────────────────────────────┐
+│     FONTES DE DADOS/PROCESSOS           │
+│  (APIs, Webhooks, CRMs, Formulários)    │
+└────────┬────────────────────────────────┘
          │
          ▼
 ┌─────────────────────────────────────────┐
 │         NEXUS SALES OS                  │
+│   Plataforma de Automação Completa      │
 │                                         │
 │  ┌──────────────────────────────────┐  │
-│  │  Módulo A: Captura               │  │
-│  │  (Webhooks, APIs)                │  │
+│  │  Camada de Agentes               │  │
+│  │  (IA, Processamento, Chatbots)   │  │
 │  └──────────┬───────────────────────┘  │
 │             │                           │
 │             ▼                           │
 │  ┌──────────────────────────────────┐  │
-│  │  Módulo B: Enriquecimento        │  │
-│  │  (Receita Federal, LinkedIn)     │  │
+│  │  Engine de Automação             │  │
+│  │  (Workflows, Orquestração)       │  │
 │  └──────────┬───────────────────────┘  │
 │             │                           │
 │             ▼                           │
 │  ┌──────────────────────────────────┐  │
-│  │  Módulo C: IA Triagem            │  │
-│  │  (Gemini/GPT - Lead Scoring)     │  │
+│  │  Camada de Integrações           │  │
+│  │  (CRMs, APIs, Sistemas Externos) │  │
 │  └──────────┬───────────────────────┘  │
 │             │                           │
 │             ▼                           │
 │  ┌──────────────────────────────────┐  │
-│  │  Módulo D: Distribuição          │  │
-│  │  (CRM, WhatsApp, Notificações)   │  │
+│  │  Dashboard & Analytics           │  │
+│  │  (Monitoramento, Métricas, Logs) │  │
 │  └──────────────────────────────────┘  │
 │                                         │
 └─────────────────────────────────────────┘
          │
          ▼
-┌─────────────────┐
-│   CRM + TIME    │
-│   COMERCIAL     │
-└─────────────────┘
+┌─────────────────────────────────────┐
+│   SISTEMAS DESTINO                  │
+│  (CRMs, Notificações, Webhooks)     │
+└─────────────────────────────────────┘
 ```
 
 ## 👥 Roles e Permissões
@@ -184,24 +187,31 @@ nexus-sales-os/
 - **Docker** (Containerização)
 - **GitHub Actions** (CI/CD)
 
-## 🎯 Nichos-Alvo
+## 🎯 Casos de Uso
 
-### 1. Energia Solar ⭐ (Principal)
-- **Ticket:** R$ 20k - R$ 100k+
-- **Dor:** Muitos leads curiosos, precisam qualificar (telhado próprio, conta de luz alta)
-- **ROI:** Recuperar 2 vendas/mês = R$ 60k extra
+### 1. Automação de Vendas e Marketing
+- **Captura e qualificação** de leads de múltiplas fontes
+- **Enriquecimento automático** de dados (CNPJ, perfis, informações)
+- **Distribuição inteligente** para CRMs e times
+- **Scoring e priorização** com IA
 
-### 2. Consultorias B2B
-- **Dor:** Precisa enriquecer dados (CNPJ, faturamento) antes de contato
-- **Solução:** Enriquecimento automático + qualificação por perfil
+### 2. Processamento de Dados Inteligente
+- **Agentes de IA** para análise e classificação
+- **Automação de workflows** complexos
+- **Integração entre sistemas** desconectados
+- **Transformação e enriquecimento** de dados
 
-### 3. Imobiliárias Alto Padrão
-- **Dor:** Corretores perdem tempo com leads sem renda compatível
-- **Solução:** Qualificação por perfil financeiro
+### 3. Atendimento e Comunicação
+- **Chatbots inteligentes** configuráveis
+- **Respostas automáticas** personalizadas
+- **Roteamento inteligente** de mensagens
+- **Análise de sentimento** e contexto
 
-### 4. SaaS B2B
-- **Dor:** Leads de múltiplas fontes, precisa qualificar por fit
-- **Solução:** Enriquecimento + lead scoring inteligente
+### 4. Operações e Backend
+- **Automação de processos** internos
+- **Sincronização de dados** entre sistemas
+- **Monitoramento e alertas** automatizados
+- **Orquestração de tarefas** complexas
 
 ## 💰 Modelo de Precificação
 
@@ -210,9 +220,9 @@ nexus-sales-os/
 
 **Inclui:**
 - Configuração completa da infraestrutura
-- Integração com fontes de leads (Facebook, Google, etc.)
-- Integração com CRM do cliente
-- Configuração de regras de qualificação (IA)
+- Criação e configuração de agentes personalizados
+- Integração com sistemas do cliente (CRMs, APIs, etc.)
+- Configuração de workflows e automações
 - Treinamento da equipe
 - **Entrega:** 30-45 dias
 
@@ -227,29 +237,29 @@ nexus-sales-os/
 - Ajustes finos na IA
 - Relatórios mensais de performance
 
-## 📊 ROI para o Cliente
+## 📊 Valor Gerado
 
-### Exemplo: Empresa de Energia Solar
+### Benefícios Principais
 
-**Situação Atual:**
-- Investimento em tráfego: R$ 10.000/mês
-- Leads gerados: 100/mês
-- Leads qualificados manualmente: 20
-- Vendas fechadas: 5
-- Ticket médio: R$ 30.000
-- Receita: R$ 150.000/mês
+**Eficiência Operacional:**
+- Redução de 60-80% no tempo gasto em processos manuais
+- Automação 24/7 sem necessidade de intervenção humana
+- Escalabilidade automática conforme demanda
 
-**Com Nexus Sales OS:**
-- Investimento em tráfego: R$ 10.000/mês (mesmo)
-- Leads gerados: 100/mês (mesmo)
-- Leads qualificados automaticamente: 25 (+5 por melhor qualificação)
-- Vendas fechadas: 7 (+2 por melhor gestão)
-- Ticket médio: R$ 30.000
-- Receita: R$ 210.000/mês
+**Inteligência e Qualidade:**
+- Decisões mais precisas com IA integrada
+- Qualificação e classificação automática
+- Insights e analytics em tempo real
 
-**Ganho:** +R$ 60.000/mês  
-**Investimento:** R$ 25.000 (setup) + R$ 2.500/mês  
-**ROI:** Se paga em menos de 1 mês
+**Economia de Recursos:**
+- Menos necessidade de equipe para tarefas repetitivas
+- Redução de erros manuais
+- Otimização de processos existentes
+
+**Flexibilidade:**
+- Agentes configuráveis para cada necessidade
+- Integração com qualquer sistema via APIs
+- Workflows personalizáveis por cliente
 
 ## 🛠️ Instalação e Setup
 
@@ -438,36 +448,40 @@ ADMIN_EMAIL=admin@nexus.ai ADMIN_PASSWORD=SenhaSegura123! ADMIN_NAME="Admin Nexu
 
 ### MVP (60 dias) - Q1 2025
 - [x] Estrutura base do projeto
-- [ ] Módulo A: Captura (webhooks básicos)
-- [ ] Módulo B: Enriquecimento (ReceitaWS + 2 APIs)
-- [ ] Módulo C: IA Triagem (Gemini + regras básicas)
-- [ ] Módulo D: Integração com 1 CRM (Pipedrive)
-- [ ] Dashboard básico (métricas principais)
+- [x] Sistema de agentes configuráveis
+- [x] Dashboard de automação e monitoramento
+- [ ] Engine de workflows mais robusto
+- [ ] Biblioteca de agentes pré-configurados
+- [ ] Integrações com principais CRMs e APIs
 - [ ] 3-5 clientes beta
 
 ### Produto Completo (90 dias) - Q2 2025
-- [ ] Todas as integrações de captura (Facebook, Google, LinkedIn)
-- [ ] Integrações com 4 CRMs principais
+- [ ] Marketplace de agentes e automações
+- [ ] Editor visual de workflows
+- [ ] Integrações com 10+ sistemas populares
 - [ ] Dashboard completo com analytics avançados
-- [ ] Documentação completa
+- [ ] Documentação completa e tutoriais
 - [ ] Processo de onboarding padronizado
 - [ ] 10+ clientes ativos
 
 ### Escala (180 dias) - Q3 2025
 - [ ] Portal do cliente (self-service)
-- [ ] Templates por nicho (Energia Solar, B2B, etc.)
-- [ ] API pública
-- [ ] Programa de parceiros
+- [ ] Templates de automação por vertical
+- [ ] API pública para desenvolvedores
+- [ ] Programa de parceiros e integradores
+- [ ] Agentes de IA mais avançados
 - [ ] 20+ clientes ativos
 - [ ] MRR: R$ 40.000+
 
 ## 📈 Métricas de Sucesso
 
 ### Para o Cliente
-- 📈 Aumento de vendas (receita mensal)
-- ⏱️ Redução de tempo do time comercial
-- 🎯 Taxa de qualificação de leads
-- 💰 ROI do investimento
+- 📈 Eficiência operacional (tempo economizado)
+- ⏱️ Redução de processos manuais
+- 🎯 Automação de tarefas repetitivas
+- 💰 ROI do investimento em automação
+- 🤖 Número de processos automatizados
+- 📊 Qualidade e precisão das automações
 
 ### Para a Nexus.ai
 - 👥 Número de clientes ativos
